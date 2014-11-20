@@ -1,7 +1,7 @@
 /**
  * Implementation of a Minimax Search with Alpha-Beta Pruning.
  * 
- * author John Paul Welsh
+ * @author John Paul Welsh
  */
 object MinimaxAlphaBeta {
 
