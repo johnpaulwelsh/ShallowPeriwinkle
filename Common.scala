@@ -6,6 +6,7 @@
  */
 object Common {
     type Board = Array[Array[Char]]
+    type Action = String
 }
 
 object RankEnum extends Enumeration {
