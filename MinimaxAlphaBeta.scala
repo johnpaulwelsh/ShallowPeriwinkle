@@ -41,7 +41,48 @@ object MinimaxAlphaBeta {
     return action
   }
 
-  // TODO: rewrite according to http://ai-depot.com/articles/minimax-explained/2/
+
+  def maxValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (Action, Int) = {
+    if (terminalTest(state) || depthLimit < 1) return (state, utility(state, true))
+
+    var mutAlpha = alpha
+    val acts = actions(state, true)
+    var bestMove = acts.head
+    var bestVal = NEGATIVE_INFINITY
+
+    for (a <- acts) {
+       val (currAction, v) = (a, minValue(result(state, a), mutAlpha, beta, depthLimit-1)._2)
+       if (v > bestVal) {
+          bestMove = currAction
+          mutAlpha = v
+       }
+ 
+       if (beta > mutAlpha) return (bestMove, bestVal)
+    }
+    return (bestMove, bestVal)
+  }
+
+  def minValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (Action, Int) = {
+    if (terminalTest(state) || depthLimit < 1) return (state, utility(state, false))
+
+    var mutBeta = beta
+    val acts = actions(state, false)
+    var bestMove = acts.head
+    var bestVal = NEGATIVE_INFINITY
+
+    for (a <- acts) {
+       val (currAction, v) = (a, maxValue(result(state, a), alpha, mutBeta, depthLimit-1)._2)
+       if (v > bestVal) {
+          bestMove = currAction
+          mutBeta = v
+       }
+ 
+       if (mutBeta < alpha) return (bestMove, bestVal)
+    }
+    return (bestMove, bestVal)
+  }
+
+  /*
   def maxValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (Action, Int) = {
     if (terminalTest(state) || depthLimit < 1) return (state, utility(state, true))
 
@@ -74,7 +115,6 @@ object MinimaxAlphaBeta {
     return (bestMove, bestVal)
   }
 
-  // TODO: rewrite according to http://ai-depot.com/articles/minimax-explained/2/
   def minValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (Action, Int) = {
     if (terminalTest(state) || depthLimit < 1) return (state, utility(state, false))
 
@@ -104,5 +144,5 @@ object MinimaxAlphaBeta {
 
     // Give back the best (worst) move and its value
     return (bestMove, v)
-  }
+  }*/
 }
