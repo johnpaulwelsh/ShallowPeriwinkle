@@ -8,8 +8,8 @@ object Common {
   type Board = Array[Array[Piece]]
   type Action = String
 
-  def maximum(ls: List[Int]): Int = ls.reduceLeft(_ max _)
-  def minimum(ls: List[Int]): Int = ls.reduceLeft(_ min _)
+  def maximum(values: Int*): Int = values.reduceLeft(_ max _)
+  def minimum(values: Int*): Int = values.reduceLeft(_ min _)
 
   def extractAction(a: Action): List[String] =
     if (a.length == 5) List(a.substring(0, 2), a.substring(3, 4))
@@ -23,9 +23,14 @@ object Common {
     // create new Blank in the beginning-position
   }
 
-  def isCheckmate(b: Board): Boolean = {
+  def isCheck(b: Board, isWhite: Boolean): Boolean = {
     false
-    // TODO: implement a check for whether the current board has a checkmate
+    // TODO: implement a check for whether the curren board has a check condition
+  }
+
+  def isCheckmate(b: Board, isWhite: Boolean): Boolean = {
+    false
+    // TODO: implement a check for whether the current board has a checkmate condition
   }
 }
 
