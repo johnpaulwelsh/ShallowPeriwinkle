@@ -21,13 +21,13 @@ object MinimaxAlphaBeta {
 
   def terminalTest(state: Board, isWhite: Boolean): Boolean = Common.isCheckmate(state, isWhite)
 
-  def result(state: Board, action: Action): Board = Common.applyAction(state, action)
+  def result(state: Board, action: String): Board = Common.applyAction(state, action)
 
   def utility(state: Board, isWhite: Boolean): Int = {
     0
   }
 
-  def actions(state: Board, isWhite: Boolean): List[Action] = {
+  def actions(state: Board, isWhite: Boolean): List[String] = {
     // Use each Piece's availableMoves() function
     List()
   }
@@ -36,14 +36,14 @@ object MinimaxAlphaBeta {
   // Core Minimax functions
   //
 
-  def alphaBetaSearch(state: Board, depthLimit: Int): Action = {
+  def alphaBetaSearch(state: Board, depthLimit: Int): String = {
     val (action, value) = maxValue(state, NEGATIVE_INFINITY, POSITIVE_INFINITY, DEPTH_LIMIT)
     return action
   }
 
 
-  def maxValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (Action, Int) = {
-    if (terminalTest(state) || depthLimit < 1) return (state, utility(state, true))
+  def maxValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
+    if (terminalTest(state, true) || depthLimit < 1) return ("none", utility(state, true))
 
     var mutAlpha = alpha
     val acts = actions(state, true)
@@ -62,8 +62,8 @@ object MinimaxAlphaBeta {
     return (bestMove, bestVal)
   }
 
-  def minValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (Action, Int) = {
-    if (terminalTest(state) || depthLimit < 1) return (state, utility(state, false))
+  def minValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
+    if (terminalTest(state, false) || depthLimit < 1) return ("none", utility(state, false))
 
     var mutBeta = beta
     val acts = actions(state, false)

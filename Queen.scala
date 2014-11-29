@@ -1,15 +1,13 @@
+import Common._
 
-class Queen(r: Int, f: File, color: String) extends Piece {
-
-  if (color == "white") {
-    val isWhite = true
-  }
-  else {
-    val isWhite = false
-  }
-
+class Queen(r: Int, f: Int, isW: Boolean) extends Piece {
+  val isWhite = isW
   val isBlank = false
-  val rank = r
-  val file = f
+  var rank = r
+  var file = f
+  var isInStartPosition = true
 
+  def availableMoves(b: Board) = {
+    List[String]()
+  }
 }

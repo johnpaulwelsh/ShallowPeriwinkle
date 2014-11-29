@@ -1,13 +1,12 @@
+import Common._
 
+/**
+ * Class to represent a chess board.
+ * 
+ * @author Mike Figueiredo, John Paul Welsh
+ */
 class Board {
+  var boardArray: Array[Array[Piece]] = Array.ofDim(8, 8)
 
-  type boardArray = Array[Array[Piece]]
-
-  def pieceAt(r: Int, f: Int) {
-
-    // Not sure what the correct syntax is for accessing multidimensional array in Scala
-    return [f - 1][r - 1]
-
-  }
-
+  def pieceAt(r: Int, f: Int): Piece = boardArray(r - 1)(f - 1)
 }

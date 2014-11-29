@@ -1,25 +1,20 @@
+import Common._
 
-class Bishop(r: Int, f: File, color: String) extends Piece {
-
-  if (color == "white") {
-    val isWhite = true
-  }
-  else {
-    val isWhite = false
-  }
-
+class Bishop(r: Int, f: Int, isW: Boolean) extends Piece {
+  val isWhite = isW
   val isBlank = false
-  val rank = r
-  val file = f
+  var rank = r
+  var file = f
+  var isInStartPosition = true
 
-  def availableMoves(b: Board) {
+  def availableMoves(b: Board): List[String] = {
 
-    moveList = List[Action]()
+    var moveList = List[String]()
+    var possibleSpot = b.pieceAt(r+1, f+1)
+    var validSpot = true
 
     if(isWhite) {
 
-      possibleSpot = b.pieceAt(r+1, f+1)
-      validSpot = true
       while (validSpot) {
 
         if(possibleSpot.rank > 8 || possibleSpot.rank < 1 || possibleSpot.file > 8 || possibleSpot.file < 1) {
@@ -27,18 +22,19 @@ class Bishop(r: Int, f: File, color: String) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
+
         else if (possibleSpot.isWhite == true) {
           validSpot = false
         }
+
         else {
-          moveList = moveList ++ moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList  ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
         possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file + 1)
-
       }
 
       possibleSpot = b.pieceAt(r-1, f+1)
@@ -50,13 +46,15 @@ class Bishop(r: Int, f: File, color: String) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList  ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
+
         else if (possibleSpot.isWhite == true) {
           validSpot = false
         }
+
         else {
-          moveList = moveList ++ moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -73,13 +71,15 @@ class Bishop(r: Int, f: File, color: String) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
+
         else if (possibleSpot.isWhite == true) {
           validSpot = false
         }
+
         else {
-          moveList = moveList ++ moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -96,13 +96,15 @@ class Bishop(r: Int, f: File, color: String) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
+
         else if (possibleSpot.isWhite == true) {
           validSpot = false
         }
+
         else {
-          moveList = moveList ++ moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -112,6 +114,7 @@ class Bishop(r: Int, f: File, color: String) extends Piece {
 
     }
 
+    // Black
     else {
 
       possibleSpot = b.pieceAt(r+1, f+1)
@@ -123,13 +126,15 @@ class Bishop(r: Int, f: File, color: String) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
+
         else if (possibleSpot.isWhite == false) {
           validSpot = false
         }
+
         else {
-          moveList = moveList ++ moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -146,13 +151,15 @@ class Bishop(r: Int, f: File, color: String) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
+        
         else if (possibleSpot.isWhite == false) {
           validSpot = false
         }
+
         else {
-          moveList = moveList ++ moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -169,13 +176,15 @@ class Bishop(r: Int, f: File, color: String) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
+
         else if (possibleSpot.isWhite == false) {
           validSpot = false
         }
+
         else {
-          moveList = moveList ++ moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -192,13 +201,15 @@ class Bishop(r: Int, f: File, color: String) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
+
         else if (possibleSpot.isWhite == false) {
           validSpot = false
         }
+
         else {
-          moveList = moveList ++ moveList = moveList ++ {(possibleSpot.rank, possibleSpot.file)}
+          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -208,8 +219,6 @@ class Bishop(r: Int, f: File, color: String) extends Piece {
 
     }
 
-    return moveList
-
+    moveList
   }
-
 }

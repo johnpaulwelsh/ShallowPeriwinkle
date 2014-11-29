@@ -1,5 +1,4 @@
 import Common._
-import RankEnum._
 
 /**
  * A trait (like an interface) to represent a chess piece.
@@ -10,13 +9,12 @@ import RankEnum._
  * @author John Paul Welsh
  */
 trait Piece {
-  // Determines team
   def isWhite: Boolean
-  // Determines whether 
   def isBlank: Boolean
   def rank: Int
-  def file: File
+  def file: Int
+  def isInStartPosition: Boolean
 
   // Return an empty List if the piece cannot move (literally, not strategically)
-  def availableMoves(b: Board): List[Action]
+  def availableMoves(b: Board): List[String]
 }
