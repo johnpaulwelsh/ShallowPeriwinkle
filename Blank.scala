@@ -7,7 +7,7 @@ import RankEnum.Rank
  *
  * @author John Paul Welsh
  */
-class Blank(r: Rank, f: Int) extends Piece {
+class Blank(r: Int, f: File) extends Piece {
   val isWhite = false
   val isBlank = true
   val rank = r

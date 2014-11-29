@@ -14,8 +14,8 @@ trait Piece {
   def isWhite: Boolean
   // Determines whether 
   def isBlank: Boolean
-  def rank: Rank
-  def file: Int
+  def rank: Int
+  def file: File
 
   // Return an empty List if the piece cannot move (literally, not strategically)
   def availableMoves(b: Board): List[Action]

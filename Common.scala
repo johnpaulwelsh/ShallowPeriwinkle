@@ -5,7 +5,7 @@
 * @author John Paul Welsh
 */
 object Common {
-  type Board = Array[Array[Piece]]
+  type Board = Board
   type Action = String
 
   def maximum(values: Int*): Int = values.reduceLeft(_ max _)
@@ -34,8 +34,8 @@ object Common {
   }
 }
 
-object RankEnum extends Enumeration {
-  type Rank = Value
+object FileEnum extends Enumeration {
+  type File = Value
   val _a    = Value(0)
   val _b    = Value(1)
   val _c    = Value(2)
