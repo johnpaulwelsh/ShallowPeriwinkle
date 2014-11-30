@@ -22,7 +22,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == true) {
@@ -30,7 +30,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else {
-          moveList = moveList  ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList  ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -46,7 +46,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList  ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList  ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == true) {
@@ -54,7 +54,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -71,7 +71,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == true) {
@@ -79,7 +79,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -96,7 +96,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == true) {
@@ -104,7 +104,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -126,7 +126,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == false) {
@@ -134,7 +134,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -151,7 +151,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == false) {
@@ -159,7 +159,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -176,7 +176,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == false) {
@@ -184,7 +184,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -201,7 +201,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == false) {
@@ -209,7 +209,7 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece {
         }
 
         else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
