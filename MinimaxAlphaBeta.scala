@@ -43,6 +43,7 @@ object MinimaxAlphaBeta {
 
 
   def maxValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
+    // TODO: do not return "none" here; figure out what should come back if we reach a terminal state
     if (terminalTest(state, true) || depthLimit < 1) return ("none", utility(state, true))
 
     var mutAlpha = alpha
@@ -54,6 +55,7 @@ object MinimaxAlphaBeta {
        val (currAction, v) = (a, minValue(result(state, a), mutAlpha, beta, depthLimit-1)._2)
        if (v > bestVal) {
           bestMove = currAction
+          bestVal = v
           mutAlpha = v
        }
  
@@ -63,6 +65,7 @@ object MinimaxAlphaBeta {
   }
 
   def minValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
+    // TODO: do not return "none" here; figure out what should come back if we reach a terminal state
     if (terminalTest(state, false) || depthLimit < 1) return ("none", utility(state, false))
 
     var mutBeta = beta
@@ -74,6 +77,7 @@ object MinimaxAlphaBeta {
        val (currAction, v) = (a, maxValue(result(state, a), alpha, mutBeta, depthLimit-1)._2)
        if (v > bestVal) {
           bestMove = currAction
+          bestVal = v
           mutBeta = v
        }
  
