@@ -1,5 +1,3 @@
-import Common._
-
 /**
  * Implementation of a Minimax Search with Alpha-Beta Pruning.
  * maxValue and minValue return tuples, with the action and
@@ -13,22 +11,40 @@ object MinimaxAlphaBeta {
   // Arbitrarily large or small numbers represent +/- infinity
   val NEGATIVE_INFINITY = -10000
   val POSITIVE_INFINITY = 10000
-  val DEPTH_LIMIT = 5
+  val DEPTH_LIMIT = 15
 
   //
   // Helper functions for Minimax
   //
 
-  def terminalTest(state: Board, isWhite: Boolean): Boolean = Common.isCheckmate(state, isWhite)
+  def terminalTest(state: Board, isWhite: Boolean): Boolean = state.isCheckmate(isWhite)
 
-  def result(state: Board, action: String): Board = Common.applyAction(state, action)
+  /**
+   * Performs an action on the board and returns the board post-move.
+   */
+  def result(state: Board, action: String): Board = state.applyAction(action)
 
+  /**
+   * The utility is the evaluation of a terminal state.
+   */
   def utility(state: Board, isWhite: Boolean): Int = {
+    // win = 1000000000
+    // lose = -100000000
     0
   }
 
+  /**
+   * All possible actions that can be taken on this board. 
+   */
   def actions(state: Board, isWhite: Boolean): List[String] = {
-    // Use each Piece's availableMoves() function
+    var moveList = List[String]()
+    for (r <- 0 until state.boardArray.length) {
+      for (f <- 0 until state.boardArray[0].length) {
+        // obviously wrong
+        if (state.pieceAt(r, f) != "Blank")
+          moveList = moveList ::: List(state.pieceAt(r, f).availableMoves(state))
+      }
+    }
     List()
   }
 
@@ -51,6 +67,7 @@ object MinimaxAlphaBeta {
     var bestMove = acts.head
     var bestVal = NEGATIVE_INFINITY
 
+    // Translate into recursion or a while loop
     for (a <- acts) {
        val (currAction, v) = (a, minValue(result(state, a), mutAlpha, beta, depthLimit-1)._2)
        if (v > bestVal) {
@@ -73,6 +90,7 @@ object MinimaxAlphaBeta {
     var bestMove = acts.head
     var bestVal = NEGATIVE_INFINITY
 
+    // Translate into recursion or a while loop
     for (a <- acts) {
        val (currAction, v) = (a, maxValue(result(state, a), alpha, mutBeta, depthLimit-1)._2)
        if (v > bestVal) {
@@ -85,68 +103,4 @@ object MinimaxAlphaBeta {
     }
     return (bestMove, bestVal)
   }
-
-  /*
-  def maxValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (Action, Int) = {
-    if (terminalTest(state) || depthLimit < 1) return (state, utility(state, true))
-
-    var v = NEGATIVE_INFINITY
-    var mutAlpha = alpha
-    val acts = actions(state, true)
-    var bestMove = acts.head
-    var bestVal = v
-
-    // For every avaiable action
-    for (a <- acts) {
-      // Get the value of this action, paired up with the action itself
-      // TODO: check that this part isn't redundant with the mutAlpha = ... line
-      (currAction, v) = (a, Common.maximum(v, minValue(result(state, a), mutAlpha, beta, depthLimit-1)._2))
-      
-      // If our alpha > beta, we return the best move so far
-      if (v >= beta) return (bestMove, bestVal)
-      
-      // Update the alpha with whichever is better
-      mutAlpha = Common.maximum(mutAlpha, v)
-      
-      // Update the best move and value if necessary
-      if (v > bestVal) {
-        bestMove = currAction
-        bestVal = v
-      }
-    }
-
-    // Give back the best move and its value
-    return (bestMove, bestVal)
-  }
-
-  def minValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (Action, Int) = {
-    if (terminalTest(state) || depthLimit < 1) return (state, utility(state, false))
-
-    var v = POSITIVE_INFINITY
-    var mutBeta = beta
-    val acts = actions(state, false)
-    var bestMove = acts.head
-
-    // For every available action
-    for (a <- acts) {
-      // Get the value of this action, paired up with the action itself
-      // TODO: check that this part isn't redundant with the mutBeta = ... line
-      (currAction, v) = (a, Common.minimum(v, maxValue(result(state, a), alpha, mutBeta, depthLimit-1)._2))
-      
-      // If our beta < alpha, we return the best (worst) move so far
-      if (v <= alpha) return (bestMove, bestVal)
-
-      // Update the beta with whichever is better (worse for us)
-      mutBeta = Common.minimum(mutBeta, v)
-
-      // Update the best move and value if necessary
-      if (v < bestVal) {
-        bestMove = currAction
-        bestVal = v
-      }
-    }
-
-    // Give back the best (worst) move and its value
-    return (bestMove, v)
-  }*/
 }
