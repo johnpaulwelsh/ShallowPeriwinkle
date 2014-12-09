@@ -8,7 +8,7 @@ import Common._
  */
 trait RookMoves {
 
-  def getRookMoves(b: Board, rank: Int, file: Int, isWhite: Boolean, isInStartPosition: Boolean): List[String] = {
+  def getRookMoves(b: Board, rank: Int, file: Int, isWhite: Boolean, limit: Int): List[String] = {
     var moveList = List[String]()
     var possibleSpot = b.pieceAt(rank+1, file)
     var validSpot = true

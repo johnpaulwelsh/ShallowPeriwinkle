@@ -8,7 +8,7 @@ import Common._
  */
 trait BishopMoves {
 
-  def getBishopMoves(b: Board, rank: Int, file: Int, isWhite: Boolean, isInStartPosition: Boolean): List[String] = {
+  def getBishopMoves(b: Board, rank: Int, file: Int, isWhite: Boolean, limit: Int): List[String] = {
     var moveList = List[String]()
     var possibleSpot = b.pieceAt(rank+1, file+1)
     var validSpot = true

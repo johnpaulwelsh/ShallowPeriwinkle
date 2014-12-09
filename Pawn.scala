@@ -7,7 +7,7 @@ class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
   var rank = r
   var file = f
 
-  def availableMoves(b: Board): List[String] = {
+  override def availableMoves(b: Board): List[String] = {
 
     var moveList = List[String]()
     var nextRank = -1

@@ -7,7 +7,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
   var file = f
   var isInStartPosition = true
 
-  def availableMoves(b: Board) = {
+  override def availableMoves(b: Board) = {
     List[String]()
   }
 }
