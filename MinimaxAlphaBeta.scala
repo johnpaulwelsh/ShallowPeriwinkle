@@ -39,13 +39,14 @@ object MinimaxAlphaBeta {
   def actions(state: Board, isWhite: Boolean): List[String] = {
     var moveList = List[String]()
     for (r <- 0 until state.boardArray.length) {
-      for (f <- 0 until state.boardArray[0].length) {
-        // obviously wrong
-        if (state.pieceAt(r, f) != "Blank")
-          moveList = moveList ::: List(state.pieceAt(r, f).availableMoves(state))
+      for (f <- 0 until state.boardArray(0).length) {
+        if (!(state.pieceAt(r, f).isBlank)) {
+          val newMoves: List[String] = state.pieceAt(r, f).availableMoves(state)
+          moveList = moveList ::: newMoves
+        }
       }
     }
-    List()
+    moveList
   }
 
   //
