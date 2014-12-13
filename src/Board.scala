@@ -39,7 +39,13 @@ class Board {
       if (endFile == 3)      setPieceAt(1, 4, pieceAt(1, 1))
       // Move the king-side Rook to file 6
       else if (endFile == 7) setPieceAt(1, 6, pieceAt(1, 8))
-      //else This should never happen
+    }
+
+    // Do a special check for en passant:
+    // If a pawn is moving diagonally and landing on a blank space
+    if (piece == "P" && (startFile - endFile) > 0 && pieceAt(endRank, endFile).isInstanceOf[Blank]) {
+      if (Common.playingAsWhite) setPieceAt(endRank+1, endFile, new Blank(endRank-1, endFile))
+      else                       setPieceAt(endRank-1, endFile, new Blank(endRank-1, endFile))
     }
 
     // Update the piece list for the given player
