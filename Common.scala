@@ -5,8 +5,7 @@
 * @author John Paul Welsh
 */
 object Common {
-  // type Board = Board
-  // type Action = String
+    val DEPTH_LIMIT = 2
 
   def maximum(values: Int*): Int = values.reduceLeft(_ max _)
   def minimum(values: Int*): Int = values.reduceLeft(_ min _)

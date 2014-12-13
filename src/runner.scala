@@ -7,8 +7,6 @@ import javax.json.JsonStructure
 
 object Main extends App {
 
-  val DEPTH_LIMIT = 2
-
   def pollForJSON() = "0"
 
   def main(args: Array[String]) = {

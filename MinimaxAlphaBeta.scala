@@ -11,8 +11,7 @@ object MinimaxAlphaBeta {
   // Arbitrarily large or small numbers represent +/- infinity
   val NEGATIVE_INFINITY = -10000
   val POSITIVE_INFINITY = 10000
-  val DEPTH_LIMIT = 15
-
+  
   //
   // Helper functions for Minimax
   //
