@@ -13,7 +13,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
 
       if((rank + 2 > 0) && (rank + 2 < 9) && (file - 1 > 0) && (file - 1 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank+2, file-1)
+        val possibleSpot = b.pieceAt(rank+2, file-1)
         if (possibleSpot.isWhite == false) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -21,7 +21,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank + 2 > 0) && (rank + 2 < 9) && (file + 1 > 0) && (file + 1 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank+2, file+1)
+        val possibleSpot = b.pieceAt(rank+2, file+1)
         if (possibleSpot.isWhite == false) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -29,7 +29,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank + 1 > 0) && (rank + 1 < 9) && (file + 2 > 0) && (file + 2 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank+1, file+2)
+        val possibleSpot = b.pieceAt(rank+1, file+2)
         if (possibleSpot.isWhite == false) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -37,7 +37,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank - 1 > 0) && (rank - 1 < 9) && (file + 2 > 0) && (file + 2 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank-1, file+2)
+        val possibleSpot = b.pieceAt(rank-1, file+2)
         if (possibleSpot.isWhite == false) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -45,7 +45,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank - 2 > 0) && (rank - 2 < 9) && (file + 1 > 0) && (file + 1 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank-2, file+1)
+        val possibleSpot = b.pieceAt(rank-2, file+1)
         if (possibleSpot.isWhite == false) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -53,7 +53,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank - 2 > 0) && (rank - 2 < 9) && (file - 1 > 0) && (file - 1 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank-2, file-1)
+        val possibleSpot = b.pieceAt(rank-2, file-1)
         if (possibleSpot.isWhite == false) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -61,7 +61,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank - 1 > 0) && (rank - 1 < 9) && (file - 2 > 0) && (file - 2 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank-1, file-2)
+        val possibleSpot = b.pieceAt(rank-1, file-2)
         if (possibleSpot.isWhite == false) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -69,7 +69,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank + 1 > 0) && (rank + 1 < 9) && (file - 2 > 0) && (file - 2 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank+1, file-2)
+        val possibleSpot = b.pieceAt(rank+1, file-2)
         if (possibleSpot.isWhite == false) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -83,7 +83,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
 
       if((rank + 2 > 0) && (rank + 2 < 9) && (file - 1 > 0) && (file - 1 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank+2, file-1)
+        val possibleSpot = b.pieceAt(rank+2, file-1)
         if ((possibleSpot.isWhite == true) || (possibleSpot.isBlank)) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -91,7 +91,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank + 2 > 0) && (rank + 2 < 9) && (file + 1 > 0) && (file + 1 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank+2, file+1)
+        val possibleSpot = b.pieceAt(rank+2, file+1)
         if ((possibleSpot.isWhite == true) || (possibleSpot.isBlank)) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -99,7 +99,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank + 1 > 0) && (rank + 1 < 9) && (file + 2 > 0) && (file + 2 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank+1, file+2)
+        val possibleSpot = b.pieceAt(rank+1, file+2)
         if ((possibleSpot.isWhite == true) || (possibleSpot.isBlank)) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -107,7 +107,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank - 1 > 0) && (rank - 1 < 9) && (file + 2 > 0) && (file + 2 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank-1, file+2)
+        val possibleSpot = b.pieceAt(rank-1, file+2)
         if ((possibleSpot.isWhite == true) || (possibleSpot.isBlank)) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -115,7 +115,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank - 2 > 0) && (rank - 2 < 9) && (file + 1 > 0) && (file + 1 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank-2, file+1)
+        val possibleSpot = b.pieceAt(rank-2, file+1)
         if ((possibleSpot.isWhite == true) || (possibleSpot.isBlank)) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -123,7 +123,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank - 2 > 0) && (rank - 2 < 9) && (file - 1 > 0) && (file - 1 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank-2, file-1)
+        val possibleSpot = b.pieceAt(rank-2, file-1)
         if ((possibleSpot.isWhite == true) || (possibleSpot.isBlank)) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -131,7 +131,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank - 1 > 0) && (rank - 1 < 9) && (file - 2 > 0) && (file - 2 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank-1, file-2)
+        val possibleSpot = b.pieceAt(rank-1, file-2)
         if ((possibleSpot.isWhite == true) || (possibleSpot.isBlank)) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -139,7 +139,7 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
       }
       if((rank + 1 > 0) && (rank + 1 < 9) && (file - 2 > 0) && (file - 2 < 9)) {
 
-        var possibleSpot = b.pieceAt(rank+1, file-2)
+        val possibleSpot = b.pieceAt(rank+1, file-2)
         if ((possibleSpot.isWhite == true) || (possibleSpot.isBlank)) {
           moveList = moveList ::: List("N" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
@@ -148,6 +148,6 @@ class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
 
     }
 
-    return moveList
+    moveList
   }
 }

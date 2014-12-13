@@ -1,5 +1,3 @@
-import scala.collection.mutable.HashMap
-
 /**
 * Various and sundry definitions, functions, etc.
 * that every file should be able to access.
@@ -19,7 +17,10 @@ object Common {
   def maximum(values: Int*): Int = values.reduceLeft(_ max _)
   def minimum(values: Int*): Int = values.reduceLeft(_ min _)
 
-  def interpretRank(s: String): Int = s match {
+  // RANK IS HORIZONTAL ROWS, AND NUMBERS
+  // FILE IS VERTICAL COLUMNS, AND LETTERS
+
+  def interpretFile(s: String): Int = s match {
     case "a" => 1
     case "b" => 2
     case "c" => 3

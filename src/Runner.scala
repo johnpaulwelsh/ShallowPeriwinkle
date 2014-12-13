@@ -1,15 +1,35 @@
-import java.io.FileReader
+import java.io.{IOException, InputStream, FileReader, OutputStreamWriter}
 
-import Common._
-
+import java.net.{MalformedURLException, URLConnection, HttpURLConnection, URL}
+import java.net.URLEncoder._
 import javax.json.{Json, JsonReader, JsonStructure}
 
 object Runner {
 
-  def pollForJSON() = "0"
+  var GAME_ID = ""
+
+  def sendJSON(url: URL, message: String) = {
+
+    try {
+      val conn: HttpURLConnection = url.openConnection().asInstanceOf[HttpURLConnection]
+      conn.setDoOutput(true)
+      conn.setRequestMethod("POST")
+
+      val osr: OutputStreamWriter = new OutputStreamWriter(conn.getOutputStream)
+      osr.write("message=" + message)
+      osr.close()
+
+      if (conn.getResponseCode == HttpURLConnection.HTTP_OK) println("made mode")
+
+    } catch {
+      case MalformedURLException => println("whoops!")
+      case IOException           => println("whoops!")
+    }
+  }
 
   def main(args: Array[String]) = {
-    //Do pollForJSON every 5 seconds
+    val url = new URL("http://bencarle.com/chess/poll/"+GAME_ID+"203/SECRET")
+    //Do pollForJSON()
     //Parse it into pieces
     //if the "ready" property is true {
     //  Get "lastMoveNumber"
@@ -29,5 +49,7 @@ object Runner {
       case "true" => Common.playingAsWhite = true
       case _ => Common.playingAsWhite = false
     }
+
+    GAME_ID = args(1)
   }
 }
