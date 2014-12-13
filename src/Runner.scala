@@ -6,8 +6,6 @@ import javax.json.{Json, JsonReader, JsonStructure}
 
 object Runner {
 
-  var GAME_ID = ""
-
   def sendJSON(url: URL, message: String) = {
 
     try {
@@ -28,7 +26,7 @@ object Runner {
   }
 
   def main(args: Array[String]) = {
-    val url = new URL("http://bencarle.com/chess/poll/"+GAME_ID+"203/SECRET")
+
     //Do pollForJSON()
     //Parse it into pieces
     //if the "ready" property is true {
@@ -50,6 +48,8 @@ object Runner {
       case _ => Common.playingAsWhite = false
     }
 
-    GAME_ID = args(1)
+    val GAME_ID = args(1)
+
+    val url = new URL("http://bencarle.com/chess/poll/"+GAME_ID+"201/01a907f0/")
   }
 }
