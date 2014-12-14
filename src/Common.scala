@@ -7,6 +7,8 @@
 object Common {
   val DEPTH_LIMIT = 2
 
+  var ourBoard: Board = null
+
   // TODO: This changes how eval function works and picks which piece table we will use
   var playingAsWhite: Boolean = false
 
@@ -17,8 +19,8 @@ object Common {
   def maximum(values: Int*): Int = values.reduceLeft(_ max _)
   def minimum(values: Int*): Int = values.reduceLeft(_ min _)
 
-  // RANK IS HORIZONTAL ROWS, AND NUMBERS
   // FILE IS VERTICAL COLUMNS, AND LETTERS
+  // RANK IS HORIZONTAL ROWS, AND NUMBERS
 
   def interpretFile(s: String): Int = s match {
     case "a" => 1

@@ -1,11 +1,30 @@
 import java.io._
 
-import java.net.{MalformedURLException, URLConnection, HttpURLConnection, URL}
-import java.net.URLEncoder._
-import javax.json.{Json, JsonReader, JsonStructure}
+import java.net.{HttpURLConnection, URL}
+import javax.json._
 
 object Runner {
 
+  def getHttpUrlData(url: String) = {
+
+    //    try {
+    //      val conn: HttpURLConnection = url.openConnection().asInstanceOf[HttpURLConnection]
+    //      conn.setDoOutput(true)
+    //      conn.setRequestMethod("POST")
+    //
+    //      val osr: OutputStreamWriter = new OutputStreamWriter(conn.getOutputStream)
+    //      osr.write("message=" + message)
+    //      osr.close()
+    //
+    //      if (conn.getResponseCode == HttpURLConnection.HTTP_OK) println("made mode")
+    //
+    //    } catch {
+    //      case MalformedURLException => println("whoops!")
+    //      case IOException           => println("whoops!")
+    //    }
+  }
+
+  // http://alvinalexander.com/blog/post/java/how-open-url-read-contents-httpurl-connection-java
   def doHttpUrlConnectionAction(desiredUrl: String): String = {
     val url: URL = new URL(desiredUrl)
     var reader: BufferedReader = null
@@ -17,9 +36,6 @@ object Runner {
 
       // just want to do an HTTP GET here
       connection.setRequestMethod("GET")
-
-      // uncomment this if you want to write output to this url
-      //connection.setDoOutput(true)
 
       // give it 15 seconds to respond
       connection.setReadTimeout(15*1000)
@@ -52,42 +68,23 @@ object Runner {
     }
   }
 
-  def getHttpUrlData(url: String) = {
+  // http://www.journaldev.com/2315/java-json-processing-api-example-tutorial
+  def parseJSON(str: String) = {
+    // Make an input stream out of the parameter string
+    val ips: InputStream = new ByteArrayInputStream(str.getBytes)
+    // Read the JSON from that input stream
+    val jsonReader: JsonReader = Json.createReader(ips)
+    // Make a JSON object out of that
+    val jsonObject: JsonObject = jsonReader.readObject()
+    // Close the things
+    jsonReader.close()
+    ips.close()
 
-//    try {
-//      val conn: HttpURLConnection = url.openConnection().asInstanceOf[HttpURLConnection]
-//      conn.setDoOutput(true)
-//      conn.setRequestMethod("POST")
-//
-//      val osr: OutputStreamWriter = new OutputStreamWriter(conn.getOutputStream)
-//      osr.write("message=" + message)
-//      osr.close()
-//
-//      if (conn.getResponseCode == HttpURLConnection.HTTP_OK) println("made mode")
-//
-//    } catch {
-//      case MalformedURLException => println("whoops!")
-//      case IOException           => println("whoops!")
-//    }
+    // Return a ChessJSON object
+    new ChessJSON(jsonObject)
   }
 
-  def main(args: Array[String]) = {
-
-    //Do getHttpUrlData()
-    //Parse it into pieces
-    //if the "ready" property is true {
-    //  Get "lastMoveNumber"
-    //  if "lastMoveNumber" matches the one we're keeping track of {
-    //    val oppMove = "lastMove"
-    //    val currBoard = make a Board out of the current Board, with "lastMove" applied
-    //    val ourMove = Common.alphaBetaSearch(currBoard, DEPTH_LIMIT)
-    //    send ourMove to server
-    //  } else {
-    //    We dinked it up
-    //  }
-    //} else {
-    //  Do nothing
-    //}
+  def main(args: Array[String]): Unit = {
 
 //    args(0) match {
 //      case "true" => Common.playingAsWhite = true
@@ -95,12 +92,38 @@ object Runner {
 //    }
 
 //    val GAME_ID = args(1)
-    val GAME_ID = 203
+    val GAME_ID = 216
 
 //    val url = "http://bencarle.com/chess/poll/"+GAME_ID+"201/01a907f0/"
     val urlPlayer1 = "http://bencarle.com/chess/poll/"+GAME_ID+"/1/32c68cae/"
     val urlPlayer2 = "http://bencarle.com/chess/poll/"+GAME_ID+"/2/1a77594c/"
 
-    println(doHttpUrlConnectionAction(urlPlayer1))
+    val urlNextMovePlayer1 = "http://bencarle.com/chess/move/"+GAME_ID+"/1/32c68cae/"
+    val urlNextMovePlayer2 = "http://bencarle.com/chess/move/"+GAME_ID+"/2/1a77594c/"
+
+//    val responseString = doHttpUrlConnectionAction(urlPlayer1)
+//    val responseJSON = parseJSON(responseString)
+
+//    if (responseJSON.ready) {
+//      if (responseJSON.secsLeft > 0) {
+//        // Make the move that the opponent just made
+//        Common.ourBoard = Common.ourBoard.applyAction(responseJSON.lastMove, !Common.playingAsWhite)
+//        // Decide and make our move
+////        val ourMove = MinimaxAlphaBeta.alphaBetaSearch(Common.ourBoard, Common.DEPTH_LIMIT)
+//        val ourMove = "Pb2b4"
+////        Common.ourBoard = Common.ourBoard.applyAction(ourMove, Common.playingAsWhite)
+//
+//        // send ourMove to server
+//        doHttpUrlConnectionAction(urlNextMovePlayer1 + ourMove)
+//      }
+//    }
+
+//    println(responseJSON.toString)
+
+
+
+    Common.ourBoard = new Board(true)
+    Common.ourBoard = Common.ourBoard.applyAction("Pb2b4", true)
+    Common.ourBoard.printBoard()
   }
 }
