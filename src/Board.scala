@@ -40,10 +40,10 @@ class Board(beginning: Boolean) {
 
   def setPieceLists(): Unit = {
     for (r <- 1 to 8) {
-      pieceListWhite = pieceAt(r, 1) :: pieceListWhite // officers
-      pieceListWhite = pieceAt(r, 2) :: pieceListWhite // pawns
-      pieceListBlack = pieceAt(r, 7) :: pieceListBlack // pawns
-      pieceListBlack = pieceAt(r, 8) :: pieceListBlack // officers
+      pieceListWhite = pieceAt(r, 1) +: pieceListWhite // officers
+      pieceListWhite = pieceAt(r, 2) +: pieceListWhite // pawns
+      pieceListBlack = pieceAt(r, 7) +: pieceListBlack // pawns
+      pieceListBlack = pieceAt(r, 8) +: pieceListBlack // officers
     }
   }
 
@@ -58,8 +58,9 @@ class Board(beginning: Boolean) {
     while (!isC && count < opponentsMoves.length) {
       val move = opponentsMoves(count)
       val (endRank, endFile) = (move.charAt(3).toInt, move.charAt(4).toInt)
-      if (ourBoard.pieceAt(endRank, endFile).getClass.toString == "King") {
-        isC = true
+      ourBoard.pieceAt(endRank, endFile) match {
+        case k: King => isC = true
+        case _       => isC = false
       }
       count += 1
     }
@@ -83,6 +84,14 @@ class Board(beginning: Boolean) {
     isCM
   }
 
+  def isCastling(piece: String, startRank: Int, endRank: Int): Boolean = {
+    piece == "K" && Math.abs(startRank - endRank) > 1
+  }
+
+  def isEnPassant(piece: String, startRank: Int, endRank: Int, endFile: Int): Boolean = {
+    piece == "P" && Math.abs(startRank - endRank) > 0 && pieceAt(endRank, endFile).isBlank
+  }
+
   def applyAction(a: String, isWhite: Boolean): Board = {
 
     // We will gave already interpreted the ranks into numbers
@@ -90,10 +99,21 @@ class Board(beginning: Boolean) {
     val piece = split(0)
     val (startRank, startFile, endRank, endFile) = (split(1).toInt, split(2).toInt, split(3).toInt, split(4).toInt)
 
+    // Update the piece list for the opposing player, if there is a capture going on
+    if (isWhite) {
+      val capturedIdx = pieceListBlack.indexOf(ourBoard.pieceAt(endRank, endFile))
+      if (capturedIdx > 0) {
+        pieceListBlack = splice(pieceListBlack, capturedIdx, 1)
+      }
+    } else {
+      val capturedIdx = pieceListWhite.indexOf(ourBoard.pieceAt(endRank, endFile))
+      pieceListWhite = splice(pieceListWhite, capturedIdx, 1)
+    }
+
     // Do a special check for castling:
     // If the king is moving more than one space,
     // also move the rook that is being castled with
-    if (piece == "K" && Math.abs(startRank - endRank) > 1) {
+    if (isCastling(piece, startRank, endRank)) {
 
       if (isWhite) {
         // Move the queen-side Rook to "rank" (column) 4
@@ -120,11 +140,19 @@ class Board(beginning: Boolean) {
 
     // Do a special check for en passant:
     // If a pawn is moving diagonally and landing on a blank space,
-    // remove the piece that it caught
-    } else if (piece == "P" && Math.abs(startRank - endRank) > 0 && pieceAt(endRank, endFile).isBlank) {
+    // remove the piece that it caught (and also remove it from the piece list
+    } else if (isEnPassant(piece, startRank, endRank, endFile)) {
 
-      if (isWhite) setPieceAt(endRank, endFile-1, new Blank(endRank, endFile-1))
-      else         setPieceAt(endRank, endFile+1, new Blank(endRank, endFile+1))
+      if (isWhite) {
+        val capturedIdx = pieceListBlack.indexOf(ourBoard.pieceAt(endRank, endFile-1))
+        if (capturedIdx > 0) pieceListBlack = splice(pieceListBlack, capturedIdx, 1)
+        setPieceAt(endRank, endFile-1, new Blank(endRank, endFile-1))
+      }
+      else {
+        val capturedIdx = pieceListWhite.indexOf(ourBoard.pieceAt(endRank, endFile+1))
+        if (capturedIdx > 0) pieceListWhite = splice(pieceListWhite, capturedIdx, 1)
+        setPieceAt(endRank, endFile+1, new Blank(endRank, endFile+1))
+      }
 
     }
 
@@ -133,8 +161,6 @@ class Board(beginning: Boolean) {
 
     // Create a new Blank in the beginning position
     setPieceAt(startRank, startFile, new Blank(startRank, startFile))
-
-    // TODO: Update the piece list for the given player
 
     // Return the changed board
     this

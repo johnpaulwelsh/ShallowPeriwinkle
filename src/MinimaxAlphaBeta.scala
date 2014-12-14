@@ -101,17 +101,15 @@ object MinimaxAlphaBeta {
    * All possible actions that can be taken on this board.
    */
   def actions(state: Board, isWhite: Boolean): List[String] = {
-    var moveList = List[String]()
-    for (r <- 0 until state.boardArray.length) {
-      for (f <- 0 until state.boardArray(0).length) {
-        // If the piece is not blank and it matches our color
-        if (!state.pieceAt(r, f).isBlank && state.pieceAt(r, f).isWhite == isWhite) {
-          moveList = moveList ::: state.pieceAt(r, f).availableMoves(state)
-        }
-      }
+
+    def buildMoveList(ls: Array[Piece], accum: List[String]): List[String] = {
+      if (ls.isEmpty) accum
+      else            buildMoveList(ls.tail, ls.head.availableMoves(state) ++ accum)
     }
 
-    moveList
+    val pieceList = if (isWhite) pieceListWhite else pieceListBlack
+
+    buildMoveList(pieceList, List[String]())
   }
 
   //

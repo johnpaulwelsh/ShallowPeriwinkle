@@ -17,11 +17,13 @@ object Common {
    */
   var playingAsWhite: Boolean = false
 
-  var pieceListWhite = List[Piece]()
-  var pieceListBlack = List[Piece]()
+  var pieceListWhite = Array[Piece]()
+  var pieceListBlack = Array[Piece]()
 
   def maximum(values: Int*): Int = values.reduceLeft(_ max _)
   def minimum(values: Int*): Int = values.reduceLeft(_ min _)
+
+  def splice(arr: Array[Piece], startIdx: Int, count: Int): Array[Piece] = (arr.take(startIdx) ++ arr.drop(startIdx + count)).toArray
 
   // REAL LIFE
   // FILE IS VERTICAL COLUMNS, AND LETTERS
@@ -51,5 +53,10 @@ object Common {
     case 6 => "f"
     case 7 => "g"
     case 8 => "h"
+  }
+
+  def printPieceList(ls: Array[Piece]): Unit = {
+    ls.foreach(x => print(x.getClass.toString + " "))
+    println()
   }
 }
