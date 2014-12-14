@@ -1,28 +1,9 @@
 import java.io._
-
 import java.net.{HttpURLConnection, URL}
 import javax.json._
+import Common._
 
 object Runner {
-
-  def getHttpUrlData(url: String) = {
-
-    //    try {
-    //      val conn: HttpURLConnection = url.openConnection().asInstanceOf[HttpURLConnection]
-    //      conn.setDoOutput(true)
-    //      conn.setRequestMethod("POST")
-    //
-    //      val osr: OutputStreamWriter = new OutputStreamWriter(conn.getOutputStream)
-    //      osr.write("message=" + message)
-    //      osr.close()
-    //
-    //      if (conn.getResponseCode == HttpURLConnection.HTTP_OK) println("made mode")
-    //
-    //    } catch {
-    //      case MalformedURLException => println("whoops!")
-    //      case IOException           => println("whoops!")
-    //    }
-  }
 
   // http://alvinalexander.com/blog/post/java/how-open-url-read-contents-httpurl-connection-java
   def doHttpUrlConnectionAction(desiredUrl: String): String = {
@@ -55,7 +36,6 @@ object Runner {
       case e: Exception => "dingo"
 
     } finally {
-
       // close the reader; this can throw an exception too, so
       // wrap it in another try/catch block.
       if (reader != null) {
@@ -84,46 +64,50 @@ object Runner {
     new ChessJSON(jsonObject)
   }
 
+  def move(urlPoll: String, urlNextMove: String): Unit = {
+
+    val responseJSON = parseJSON(doHttpUrlConnectionAction(urlPoll))
+
+    // If the server is ready for our move
+    if (responseJSON.ready) {
+      // If we still have time to play
+      if (responseJSON.secsLeft > 0) {
+        // Make the move that the opponent just made on our board
+        ourBoard = ourBoard.applyAction(responseJSON.lastMove, !playingAsWhite)
+        // Decide and make our move on our board
+        //        val ourMove = MinimaxAlphaBeta.alphaBetaSearch(ourBoard, DEPTH_LIMIT)
+        val ourMove = "Pb2b4"
+        ourBoard = ourBoard.applyAction(ourMove, playingAsWhite)
+
+        // send ourMove to server
+        doHttpUrlConnectionAction(urlNextMove + ourMove)
+      }
+    }
+  }
+
   def main(args: Array[String]): Unit = {
 
+    ourBoard = new Board(true)
+    playingAsWhite = true
+
 //    args(0) match {
-//      case "true" => Common.playingAsWhite = true
-//      case _ => Common.playingAsWhite = false
+//      case "true" => playingAsWhite = true
+//      case _ => playingAsWhite = false
 //    }
 
-//    val GAME_ID = args(1)
     val GAME_ID = 216
+//    val GAME_ID = args(1)
 
-//    val url = "http://bencarle.com/chess/poll/"+GAME_ID+"201/01a907f0/"
-    val urlPlayer1 = "http://bencarle.com/chess/poll/"+GAME_ID+"/1/32c68cae/"
-    val urlPlayer2 = "http://bencarle.com/chess/poll/"+GAME_ID+"/2/1a77594c/"
+    val urlPoll = "http://bencarle.com/chess/poll/"+GAME_ID+"/1/32c68cae/"
+//    val urlPoll = "http://bencarle.com/chess/poll/"+GAME_ID+"/2/1a77594c/"
 
-    val urlNextMovePlayer1 = "http://bencarle.com/chess/move/"+GAME_ID+"/1/32c68cae/"
-    val urlNextMovePlayer2 = "http://bencarle.com/chess/move/"+GAME_ID+"/2/1a77594c/"
+    val urlNextMove = "http://bencarle.com/chess/move/"+GAME_ID+"/1/32c68cae/"
+//    val urlNextMove = "http://bencarle.com/chess/move/"+GAME_ID+"/2/1a77594c/"
 
-//    val responseString = doHttpUrlConnectionAction(urlPlayer1)
-//    val responseJSON = parseJSON(responseString)
-
-//    if (responseJSON.ready) {
-//      if (responseJSON.secsLeft > 0) {
-//        // Make the move that the opponent just made
-//        Common.ourBoard = Common.ourBoard.applyAction(responseJSON.lastMove, !Common.playingAsWhite)
-//        // Decide and make our move
-////        val ourMove = MinimaxAlphaBeta.alphaBetaSearch(Common.ourBoard, Common.DEPTH_LIMIT)
-//        val ourMove = "Pb2b4"
-////        Common.ourBoard = Common.ourBoard.applyAction(ourMove, Common.playingAsWhite)
-//
-//        // send ourMove to server
-//        doHttpUrlConnectionAction(urlNextMovePlayer1 + ourMove)
-//      }
-//    }
-
-//    println(responseJSON.toString)
-
-
-
-    Common.ourBoard = new Board(true)
-    Common.ourBoard = Common.ourBoard.applyAction("Pb2b4", true)
-    Common.ourBoard.printBoard()
+    // Do the poll + move process every 5 seconds
+    while (true) {
+      move(urlPoll, urlNextMove)
+      Thread.sleep(300000)
+    }
   }
 }

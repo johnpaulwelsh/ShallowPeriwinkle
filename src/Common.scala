@@ -9,7 +9,10 @@ object Common {
 
   var ourBoard: Board = null
 
-  // TODO: This changes how eval function works and picks which piece table we will use
+  /* Whenever something relies on whether we are playing as white or black, use this.
+   * It's determined at the beginning of the game, and using it properly will correctly
+   * distinguish us from the opponent.
+   */
   var playingAsWhite: Boolean = false
 
   // Arrays of tuples representing the ranks and files of all remaining pieces
