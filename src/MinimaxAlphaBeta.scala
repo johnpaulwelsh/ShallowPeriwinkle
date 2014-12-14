@@ -88,7 +88,7 @@ object MinimaxAlphaBeta {
       if (state.isCheck(true))   // Check on Black King
         stateVal += KING_ATTACK
       if (state.isCheck(false))  // Check on White King
-        stateVal -= KING_ATTACK
+        stateVal -= (KING_ATTACK + 5)  // Make checks on our king worse than putting their king in check, prevents check tradeoffs
 
       // Invert Eval Total For Black Piece Calculation
       if(!isWhite)
