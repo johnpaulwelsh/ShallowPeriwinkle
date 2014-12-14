@@ -134,7 +134,7 @@ object Runner {
 //    val urlNextMove = "http://bencarle.com/chess/move/"+GAME_ID+"/"+player+"/"+secret+"/"
 
     // Do the poll + move process every 5 seconds
-//    while (true) {
+//    while (true && !GAME_OVER) {
       //move(urlPoll, urlNextMove)
       //Thread.sleep(5000)
 //    }
