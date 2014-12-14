@@ -17,9 +17,8 @@ object Common {
    */
   var playingAsWhite: Boolean = false
 
-  // Arrays of tuples representing the ranks and files of all remaining pieces
-//  var pieceListWhite = Array[(Int, Int)]()
-//  var pieceListBlack = Array[(Int, Int)]()
+  var pieceListWhite = List[Piece]()
+  var pieceListBlack = List[Piece]()
 
   def maximum(values: Int*): Int = values.reduceLeft(_ max _)
   def minimum(values: Int*): Int = values.reduceLeft(_ min _)

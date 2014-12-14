@@ -49,40 +49,39 @@ object MinimaxAlphaBeta {
     else if (!isWhite && state.isCheckmate(false)) // Playing Black and Checkmate on White
       stateVal = POSITIVE_INFINITY
     else {
+      for (r <- 1 to state.boardArray.length) {
+        for (f <- 1 to state.boardArray(0).length) {
+          if (!state.pieceAt(r, f).isBlank) {
+            val thisPiece = state.pieceAt(r,f)
 
-        for (r <- 0 until state.boardArray.length) {
-          for (f <- 0 until state.boardArray(0).length) {
-            if (!state.pieceAt(r, f).isBlank) {
-              val thisPiece = state.pieceAt(r,f)
+            thisPiece match {
+              case p: Pawn =>
+                if(thisPiece.isWhite) stateVal += PAWN
+                else                  stateVal -= PAWN
 
-              thisPiece match {
-                case p: Pawn =>
-                  if(thisPiece.isWhite) stateVal += PAWN
-                  else                  stateVal -= PAWN
+              case r: Rook =>
+                if(thisPiece.isWhite) stateVal += ROOK
+                else                  stateVal -= ROOK
 
-                case r: Rook =>
-                  if(thisPiece.isWhite) stateVal += ROOK
-                  else                  stateVal -= ROOK
+              case k: Knight =>
+                if(thisPiece.isWhite) stateVal += KNIGHT
+                else                  stateVal -= KNIGHT
 
-                case k: Knight =>
-                  if(thisPiece.isWhite) stateVal += KNIGHT
-                  else                  stateVal -= KNIGHT
+              case b: Bishop =>
+                if(thisPiece.isWhite) stateVal += BISHOP
+                else                  stateVal -= BISHOP
 
-                case b: Bishop =>
-                  if(thisPiece.isWhite) stateVal += BISHOP
-                  else                  stateVal -= BISHOP
+              case q: Queen =>
+                if(thisPiece.isWhite) stateVal += QUEEN
+                else                  stateVal -= QUEEN
 
-                case q: Queen =>
-                  if(thisPiece.isWhite) stateVal += QUEEN
-                  else                  stateVal -= QUEEN
-
-                case k: King =>
-                  if(thisPiece.isWhite) stateVal += KING
-                  else                  stateVal -= KING
-              }
+              case k: King =>
+                if(thisPiece.isWhite) stateVal += KING
+                else                  stateVal -= KING
             }
           }
         }
+      }
 
       // Check for attacks on King
       if (state.isCheck(true))   // Check on Black King
@@ -111,6 +110,7 @@ object MinimaxAlphaBeta {
         }
       }
     }
+
     moveList
   }
 
@@ -123,50 +123,52 @@ object MinimaxAlphaBeta {
 
 
   def maxValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
+    if (terminalTest(state, playingAsWhite) || depthLimit < 1) {
+      ("none", eval(state, playingAsWhite))
+    } else {
+      var mutAlpha = alpha
+      val acts = actions(state, playingAsWhite)
+      var bestMove = acts.head
+      var bestVal = NEGATIVE_INFINITY
 
-    if (terminalTest(state, true) || depthLimit < 1) return ("none", eval(state, true))
-
-    var mutAlpha = alpha
-    val acts = actions(state, true)
-    var bestMove = acts.head
-    var bestVal = NEGATIVE_INFINITY
-
-    // Translate into recursion or a while loop
-    for (a <- acts) {
-       val (currAction, v) = (a, minValue(result(state, a, true), mutAlpha, beta, depthLimit-1)._2)
-       if (v > bestVal) {
+      var count = 0
+      while (beta <= mutAlpha && count < acts.length) {
+        val a = acts(count)
+        val (currAction, v) = (a, minValue(result(state, a, playingAsWhite), mutAlpha, beta, depthLimit - 1)._2)
+        if (v > bestVal) {
           bestMove = currAction
           bestVal = v
           mutAlpha = v
-       }
+        }
+        count += 1
+      }
 
-       if (beta > mutAlpha) return (bestMove, bestVal)
+      (bestMove, bestVal)
     }
-
-    (bestMove, bestVal)
   }
 
   def minValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
+    if (terminalTest(state, !playingAsWhite) || depthLimit < 1) {
+      ("none", eval(state, !playingAsWhite))
+    } else {
+      var mutBeta = beta
+      val acts = actions(state, !playingAsWhite)
+      var bestMove = acts.head
+      var bestVal = NEGATIVE_INFINITY
 
-    if (terminalTest(state, false) || depthLimit < 1) return ("none", eval(state, false))
-
-    var mutBeta = beta
-    val acts = actions(state, false)
-    var bestMove = acts.head
-    var bestVal = NEGATIVE_INFINITY
-
-    // Translate into recursion or a while loop
-    for (a <- acts) {
-       val (currAction, v) = (a, maxValue(result(state, a, false), alpha, mutBeta, depthLimit-1)._2)
-       if (v > bestVal) {
+      var count = 0
+      while (alpha >= mutBeta && count < acts.length) {
+        val a = acts(count)
+        val (currAction, v) = (a, maxValue(result(state, a, !playingAsWhite), alpha, mutBeta, depthLimit - 1)._2)
+        if (v > bestVal) {
           bestMove = currAction
           bestVal = v
           mutBeta = v
-       }
+        }
+        count += 1
+      }
 
-       if (mutBeta < alpha) return (bestMove, bestVal)
+      (bestMove, bestVal)
     }
-
-    (bestMove, bestVal)
   }
 }
