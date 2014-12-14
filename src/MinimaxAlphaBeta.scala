@@ -4,19 +4,20 @@
  * value paired up, so we can give back the correct action from
  * the alphaBetaSearch entry point.
  * 
- * @author John Paul Welsh
+ * @author John Paul Welsh and Michael Figueiredo
  */
 object MinimaxAlphaBeta {
 
   // Arbitrarily large or small numbers represent +/- infinity
   val NEGATIVE_INFINITY = -10000
   val POSITIVE_INFINITY = 10000
+  val KING_ATTACK = 100     // Not sure on this value yet, may need to tweak to make for more realistic play
   val PAWN = 1
-  val KNIGHT = 2
-  val BISHOP = 5
-  val ROOK = 10
-  val QUEEN = 50
-  val KING = 100
+  val KNIGHT = 3
+  val BISHOP = 3
+  val ROOK = 5
+  val QUEEN = 9
+  val KING = 1000
   
   //
   // Helper functions for Minimax
@@ -33,12 +34,74 @@ object MinimaxAlphaBeta {
    * The eval is the evaluation of a terminal or nonterminal state.
    */
   def eval(state: Board, isWhite: Boolean): Int = {
+  
+	var stateVal: Int = 0
+	
+	// Return +INF for checkmate on opp. and -INF for checkmate on self, may need to reduce number of conditionals for efficiency later
+	if ((isWhite) && (isCheckmate(true))        // Playing White and Checkmate on Black
+	  stateVal = POSITIVE_INFINITY
+	else if ((isWhite) && (isCheckmate(false))  // Playing White and Checkmate on White
+	  stateVal = NEGATIVE_INFINITY
+	else if ((!isWhite) && (isCheckmate(true))  // Playing Black and Checkmate on Black
+	  stateVal = NEGATIVE_INFINITY
+	else if ((!isWhite) && (isCheckmate(false)) // Playing Black and Checkmate on White
+	  stateVal = POSITIVE_INFINITY
+	else {
 
+      for (r <- 0 until state.boardArray.length) {
+		for (f <- 0 until state.boardArray(0).length) {
+	      if (!state.pieceAt(r, f).isBlank) {
+			var thisPiece = state.pieceAt(r,f)
+			thisPiece match {
+			  case p @ (Pawn())   =>
+				if(thisPiece.isWhite)
+				  stateVal += PAWN
+				else
+				  stateVal -= PAWN
+			  case r @ (Rook())   =>
+				if(thisPiece.isWhite)
+				  stateVal += ROOK
+				else
+				  stateVal -= ROOK
+			  case n @ (Knight()) =>
+				if(thisPiece.isWhite)
+				  stateVal += KNIGHT
+				else
+				  stateVal -= KNIGHT
+			  case b @ (Bishop()) =>
+				if(thisPiece.isWhite)
+				  stateVal += BISHOP
+				else
+				  stateVal -= BISHOP
+			  case q @ (Queen())  =>
+				if(thisPiece.isWhite)
+				  stateVal += QUEEN
+				else
+				  stateVal -= QUEEN
+			  case k @ (King())   =>
+				if(thisPiece.isWhite)
+				  stateVal += KING
+				else
+				  stateVal -= KING
+			}  
+		  }
+		}
+	  }
+		
+	  // Check for attacks on King
+	  if (isCheck(true))   // Check on Black King
+	    stateVal += KING_ATTACK
+	  if (isCheck(false)   // Check on White King
+	    stateVal -= KING_ATTACK
 
+	  // Invert Eval Total For Black Piece Calculation
+	  if(!isWhite)
+	    stateVal = stateVal * -1
+		  
+	}
+	
+	stateVal
 
-    // win = 1000000000
-    // lose = -100000000
-    0
   }
 
   /**
