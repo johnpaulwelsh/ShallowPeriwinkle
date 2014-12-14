@@ -1,5 +1,11 @@
 import javax.json._
 
+/**
+ * A framing class to give easy access to a JSON object.
+ *
+ * @param jsonObject the JSON object that was obtained from the server
+ * @author John Paul Welsh
+ */
 class ChessJSON(jsonObject: JsonObject) {
 
   val ready       = jsonObject.getBoolean("ready")

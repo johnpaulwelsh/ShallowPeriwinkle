@@ -3,6 +3,11 @@ import java.net.{HttpURLConnection, URL}
 import javax.json._
 import Common._
 
+/**
+ * Main class for the ShallowPeriwinkle Chess AI.
+ *
+ * @author Mike Figueiredo, John Paul Welsh
+ */
 object Runner {
 
   // http://alvinalexander.com/blog/post/java/how-open-url-read-contents-httpurl-connection-java
@@ -75,7 +80,7 @@ object Runner {
         // Make the move that the opponent just made on our board
         ourBoard = ourBoard.applyAction(responseJSON.lastMove, !playingAsWhite)
         // Decide and make our move on our board
-        //        val ourMove = MinimaxAlphaBeta.alphaBetaSearch(ourBoard, DEPTH_LIMIT)
+//        val ourMove = MinimaxAlphaBeta.alphaBetaSearch(ourBoard, DEPTH_LIMIT)
         val ourMove = "Pb2b4"
         ourBoard = ourBoard.applyAction(ourMove, playingAsWhite)
 
@@ -83,6 +88,9 @@ object Runner {
         doHttpUrlConnectionAction(urlNextMove + ourMove)
       }
     }
+
+//    ourBoard = ourBoard.applyAction("Ke1g1", playingAsWhite)
+    ourBoard.printBoard()
   }
 
   def main(args: Array[String]): Unit = {
@@ -105,9 +113,9 @@ object Runner {
 //    val urlNextMove = "http://bencarle.com/chess/move/"+GAME_ID+"/2/1a77594c/"
 
     // Do the poll + move process every 5 seconds
-    while (true) {
+//    while (true) {
       move(urlPoll, urlNextMove)
-      Thread.sleep(300000)
-    }
+      Thread.sleep(5000)
+//    }
   }
 }

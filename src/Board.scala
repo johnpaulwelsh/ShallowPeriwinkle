@@ -1,8 +1,5 @@
-/**
- * Class to represent a chess board.
- * 
- * @author Mike Figueiredo, John Paul Welsh
- */
+import Common._
+
 class Board(beginning: Boolean) {
 
   var boardArray: Array[Array[Piece]] = Array.ofDim(8, 8)
@@ -10,37 +7,33 @@ class Board(beginning: Boolean) {
   if (beginning) initializeBoard()
 
   def initializeBoard() = {
-    setPieceAt(1, 1, new Rook(1, 1, true))
-    setPieceAt(1, 2, new Knight(1, 2, true))
-    setPieceAt(1, 3, new Bishop(1, 3, true))
-    setPieceAt(1, 5, new King(1, 5, true))
-    setPieceAt(1, 4, new Queen(1, 4, true))
-    setPieceAt(1, 6, new Bishop(1, 6, true))
-    setPieceAt(1, 7, new Knight(1, 7, true))
-    setPieceAt(1, 8, new Rook(1, 8, true))
+    setPieceAt(1, 1, new Rook(  1, 1, true))
+    setPieceAt(2, 1, new Knight(2, 1, true))
+    setPieceAt(3, 1, new Bishop(3, 1, true))
+    setPieceAt(4, 1, new Queen( 4, 1, true))
+    setPieceAt(5, 1, new King(  5, 1, true))
+    setPieceAt(6, 1, new Bishop(6, 1, true))
+    setPieceAt(7, 1, new Knight(7, 1, true))
+    setPieceAt(8, 1, new Rook(  8, 1, true))
+
+    for (r <- 1 to 8) setPieceAt(r, 2, new Pawn(r, 2, true))
 
     for (r <- 1 to 8) {
-      setPieceAt(2, r, new Pawn(2, r, true))
-    }
-
-    for (f <- 3 to 6) {
-      for (r <- 1 to 8) {
-        setPieceAt(f, r, new Blank(f, r))
+      for (f <- 3 to 6) {
+        setPieceAt(r, f, new Blank(r, f))
       }
     }
 
-    for (r <- 1 to 8) {
-      setPieceAt(7, r, new Pawn(7, r, false))
-    }
+    for (r <- 1 to 8) setPieceAt(r, 7, new Pawn(r, 7, false))
 
-    setPieceAt(8, 1, new Rook(8, 1, false))
-    setPieceAt(8, 2, new Knight(8, 2, false))
-    setPieceAt(8, 3, new Bishop(8, 3, false))
-    setPieceAt(8, 5, new King(8, 5, false))
-    setPieceAt(8, 4, new Queen(8, 4, false))
-    setPieceAt(8, 6, new Bishop(8, 6, false))
-    setPieceAt(8, 7, new Knight(8, 7, false))
-    setPieceAt(8, 8, new Rook(8, 8, false))
+    setPieceAt(1, 8, new Rook(  1, 8, false))
+    setPieceAt(2, 8, new Knight(2, 8, false))
+    setPieceAt(3, 8, new Bishop(3, 8, false))
+    setPieceAt(4, 8, new Queen( 4, 8, false))
+    setPieceAt(5, 8, new King(  5, 8, false))
+    setPieceAt(6, 8, new Bishop(6, 8, false))
+    setPieceAt(7, 8, new Knight(7, 8, false))
+    setPieceAt(8, 8, new Rook(  8, 8, false))
   }
 
   def pieceAt(r: Int, f: Int): Piece = boardArray(r-1)(f-1)
@@ -58,34 +51,58 @@ class Board(beginning: Boolean) {
   def applyAction(a: String, isWhite: Boolean): Board = {
     val split     = a.split("").filter(x => x != "")
     val piece     = split(0)
-    val startFile = Common.interpretFile(split(1))
-    val startRank = split(2).toInt
-    val endFile   = Common.interpretFile(split(3))
-    val endRank   = split(4).toInt
+    val startRank = interpretRank(split(1))
+    val startFile = split(2).toInt
+    val endRank   = interpretRank(split(3))
+    val endFile   = split(4).toInt
 
-    // Put the piece from the starting position into the ending position
+    // Do a special check for castling:
+    // If the king is moving more than one space,
+    // also move the rook that is being castled with
+    if (piece == "K" && Math.abs(startRank - endRank) > 1) {
+
+      if (isWhite) {
+        // Move the queen-side Rook to "rank" (column) 4
+        if (endRank == 3) {
+          setPieceAt(4, 1, pieceAt(1, 1))
+          setPieceAt(1, 1, new Blank(1, 1))
+        // Move the king-side Rook to "rank" (column) 6
+        } else if (endRank == 7) {
+          setPieceAt(6, 1, pieceAt(8, 1))
+          setPieceAt(8, 1, new Blank(8, 1))
+        }
+
+      } else {
+        // Move the queen-side Rook to "rank" (column) 4
+        if (endRank == 3) {
+          setPieceAt(4, 8, pieceAt(1, 8))
+          setPieceAt(1, 8, new Blank(1, 8))
+        // Move the king-side Rook to "rank" (column) 6
+        } else if (endRank == 7) {
+          setPieceAt(6, 8, pieceAt(8, 8))
+          setPieceAt(8, 8, new Blank(8, 8))
+        }
+      }
+
+    // Do a special check for en passant:
+    // If a pawn is moving diagonally and landing on a blank space,
+    // remove the piece that it caught
+    } else if (piece == "P" && Math.abs(startRank - endRank) > 0 && pieceAt(endRank, endFile).isBlank) {
+
+      if (isWhite) setPieceAt(endRank, endFile-1, new Blank(endRank, endFile-1))
+      else         setPieceAt(endRank, endFile+1, new Blank(endRank, endFile+1))
+
+    }
+
+    // Do the original move here, since the stuff above only affects other pieces on those special cases
     setPieceAt(endRank, endFile, pieceAt(startRank, startFile))
 
     // Create a new Blank in the beginning position
     setPieceAt(startRank, startFile, new Blank(startRank, startFile))
 
-    // Do a special check for castling:
-    // If the king is moving more than one space
-    if (piece == "K" && Math.abs(startFile - endFile) > 1) {
-      // Move the queen-side Rook to file 4
-      if (endFile == 3)      setPieceAt(1, 4, pieceAt(1, 1))
-      // Move the king-side Rook to file 6
-      else if (endFile == 7) setPieceAt(1, 6, pieceAt(1, 8))
-    }
+    ourBoard.printBoard()
 
-    // Do a special check for en passant:
-    // If a pawn is moving diagonally and landing on a blank space
-    if (piece == "P" && (startFile - endFile) > 0 && pieceAt(endRank, endFile).isInstanceOf[Blank]) {
-      if (Common.playingAsWhite) setPieceAt(endRank+1, endFile, new Blank(endRank-1, endFile))
-      else                       setPieceAt(endRank-1, endFile, new Blank(endRank-1, endFile))
-    }
-
-    // Update the piece list for the given player
+    // TODO: Update the piece list for the given player
 
     // Return the changed board
     this
@@ -94,16 +111,23 @@ class Board(beginning: Boolean) {
   def printBoard(): Unit = {
     var str = ""
 
-//    str += "" + pieceAt(1, 1).getClass.toString + ", "
+    for (r <- 1 to 8) {
+      for (f <- 1 to 8) {
 
-    for (f <- 1 to 8) {
-      for (r <- 1 to 8) {
-        str += "" + pieceAt(f, r).getClass.toString + ", "
+        val letter = pieceAt(r, f) match {
+          case k: King   => "K"
+          case q: Queen  => "Q"
+          case r: Rook   => "R"
+          case n: Knight => "N"
+          case b: Bishop => "B"
+          case p: Pawn   => "P"
+          case _         => "~"
+        }
+
+        str += " " + letter
       }
       str += "\n"
     }
-
-//    str += "" + pieceAt(6, 8).getClass.toString + ", "
 
     println(str)
   }

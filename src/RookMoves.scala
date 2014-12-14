@@ -1,8 +1,6 @@
 /**
  * A trait that gives the ability to move like a Rook to any piece that
  * mixes it in (like Rook and Queen).
- *
- * @author John Paul Welsh
  */
 trait RookMoves {
 

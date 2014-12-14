@@ -22,10 +22,15 @@ object Common {
   def maximum(values: Int*): Int = values.reduceLeft(_ max _)
   def minimum(values: Int*): Int = values.reduceLeft(_ min _)
 
+  // REAL LIFE
   // FILE IS VERTICAL COLUMNS, AND LETTERS
   // RANK IS HORIZONTAL ROWS, AND NUMBERS
 
-  def interpretFile(s: String): Int = s match {
+  // OUR GAME
+  // RANK IS VERTICAL COLUMNS, AND LETTERS
+  // FILE IS HORIZONTAL ROWS, AND NUMBERS
+
+  def interpretRank(s: String): Int = s match {
     case "a" => 1
     case "b" => 2
     case "c" => 3
