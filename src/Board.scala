@@ -49,12 +49,17 @@ class Board(beginning: Boolean) {
   }
 
   def applyAction(a: String, isWhite: Boolean): Board = {
-    val split     = a.split("").filter(x => x != "")
-    val piece     = split(0)
-    val startRank = interpretRank(split(1))
-    val startFile = split(2).toInt
-    val endRank   = interpretRank(split(3))
-    val endFile   = split(4).toInt
+//    val split     = a.split("").filter(x => x != "")
+//    val piece     = split(0)
+//    val startRank = interpretRank(split(1))
+//    val startFile = split(2).toInt
+//    val endRank   = interpretRank(split(3))
+//    val endFile   = split(4).toInt
+
+    // We will gave already interpreted the ranks into numbers
+    val split = a.split("").filter(x => x != "")
+    val piece = split(0)
+    val (startRank, startFile, endRank, endFile) = (split(1).toInt, split(2).toInt, split(3).toInt, split(4).toInt)
 
     // Do a special check for castling:
     // If the king is moving more than one space,

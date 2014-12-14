@@ -105,9 +105,9 @@ object MinimaxAlphaBeta {
     var moveList = List[String]()
     for (r <- 0 until state.boardArray.length) {
       for (f <- 0 until state.boardArray(0).length) {
-        if (!state.pieceAt(r, f).isBlank) {
-          val newMoves: List[String] = state.pieceAt(r, f).availableMoves(state)
-          moveList = moveList ::: newMoves
+        // If the piece is not blank and it matches our color
+        if (!state.pieceAt(r, f).isBlank && state.pieceAt(r, f).isWhite == isWhite) {
+          moveList = moveList ::: state.pieceAt(r, f).availableMoves(state)
         }
       }
     }
@@ -118,15 +118,12 @@ object MinimaxAlphaBeta {
   // Core Minimax functions
   //
 
-  def alphaBetaSearch(state: Board, depthLimit: Int): String = {
-    val (action, _) = maxValue(state, NEGATIVE_INFINITY, POSITIVE_INFINITY, Common.DEPTH_LIMIT)
-
-    action
-  }
+  def alphaBetaSearch(state: Board, depthLimit: Int): String =
+    maxValue(state, NEGATIVE_INFINITY, POSITIVE_INFINITY, DEPTH_LIMIT)._1
 
 
   def maxValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
-    // TODO: do not return "none" here; figure out what should come back if we reach a terminal state
+
     if (terminalTest(state, true) || depthLimit < 1) return ("none", eval(state, true))
 
     var mutAlpha = alpha
@@ -150,7 +147,7 @@ object MinimaxAlphaBeta {
   }
 
   def minValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
-    // TODO: do not return "none" here; figure out what should come back if we reach a terminal state
+
     if (terminalTest(state, false) || depthLimit < 1) return ("none", eval(state, false))
 
     var mutBeta = beta

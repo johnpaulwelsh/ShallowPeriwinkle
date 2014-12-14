@@ -7,6 +7,8 @@
 object Common {
   val DEPTH_LIMIT = 2
 
+  var GAME_OVER = false
+
   var ourBoard: Board = null
 
   /* Whenever something relies on whether we are playing as white or black, use this.
@@ -39,5 +41,16 @@ object Common {
     case "f" => 6
     case "g" => 7
     case "h" => 8
+  }
+
+  def reverseRank(i: Int): String = i match {
+    case 1 => "a"
+    case 2 => "b"
+    case 3 => "c"
+    case 4 => "d"
+    case 5 => "e"
+    case 6 => "f"
+    case 7 => "g"
+    case 8 => "h"
   }
 }

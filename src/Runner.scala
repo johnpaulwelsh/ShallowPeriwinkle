@@ -79,10 +79,28 @@ object Runner {
       if (responseJSON.secsLeft > 0) {
         // Make the move that the opponent just made on our board
         ourBoard = ourBoard.applyAction(responseJSON.lastMove, !playingAsWhite)
+
+        // See if the state is now a checkmate; if it is, set a global variable
+        if (ourBoard.isCheckmate(playingAsWhite) || ourBoard.isCheckmate(!playingAsWhite)) {
+          GAME_OVER = true
+        }
+
         // Decide and make our move on our board
 //        val ourMove = MinimaxAlphaBeta.alphaBetaSearch(ourBoard, DEPTH_LIMIT)
-        val ourMove = "Pb2b4"
-        ourBoard = ourBoard.applyAction(ourMove, playingAsWhite)
+
+        var ourMove = "Pb2b4"
+
+        // Translate our move letters to numbers here
+        var ourMoveTranslated = ourMove.split("")
+        ourMoveTranslated(1) = interpretRank(ourMoveTranslated(1)).toString
+        ourMoveTranslated(3) = interpretRank(ourMoveTranslated(3)).toString
+
+        ourBoard = ourBoard.applyAction(ourMoveTranslated.mkString(""), playingAsWhite)
+
+        // Translate our move numbers to letters here
+        ourMoveTranslated(1) = reverseRank(ourMoveTranslated(1).toInt)
+        ourMoveTranslated(3) = reverseRank(ourMoveTranslated(3).toInt)
+        ourMove = ourMove.mkString("")
 
         // send ourMove to server
         doHttpUrlConnectionAction(urlNextMove + ourMove)
@@ -114,8 +132,8 @@ object Runner {
 
     // Do the poll + move process every 5 seconds
 //    while (true) {
-      move(urlPoll, urlNextMove)
-      Thread.sleep(5000)
+      //move(urlPoll, urlNextMove)
+      //Thread.sleep(5000)
 //    }
   }
 }
