@@ -91,7 +91,7 @@ object Runner {
         var ourMove = "Pb2b4"
 
         // Translate our move letters to numbers here
-        var ourMoveTranslated = ourMove.split("")
+        val ourMoveTranslated = ourMove.split("")
         ourMoveTranslated(1) = interpretRank(ourMoveTranslated(1)).toString
         ourMoveTranslated(3) = interpretRank(ourMoveTranslated(3)).toString
 
@@ -113,27 +113,49 @@ object Runner {
 
   def main(args: Array[String]): Unit = {
 
-    ourBoard = new Board(true)
     playingAsWhite = true
+//    playingAsWhite = (args(0) == "true")
 
-//    args(0) match {
-//      case "true" => playingAsWhite = true
-//      case _ => playingAsWhite = false
-//    }
-
+    ourBoard = new Board(true)
+    
     val GAME_ID = 216
 //    val GAME_ID = args(1)
 
-    val urlPoll = "http://bencarle.com/chess/poll/"+GAME_ID+"/1/32c68cae/"
-//    val urlPoll = "http://bencarle.com/chess/poll/"+GAME_ID+"/2/1a77594c/"
+    val player = "1"
+//    val player = "201"
 
-    val urlNextMove = "http://bencarle.com/chess/move/"+GAME_ID+"/1/32c68cae/"
-//    val urlNextMove = "http://bencarle.com/chess/move/"+GAME_ID+"/2/1a77594c/"
+    val secret = "32c68cae"
+//    val secret = ""
+
+    val urlPoll = "http://bencarle.com/chess/poll/"+GAME_ID+"/"+player+"/"+secret+"/"
+//    val urlPoll = "http://bencarle.com/chess/poll/"+GAME_ID+"/"+player+"/"+secret+"/"
+
+    val urlNextMove = "http://bencarle.com/chess/move/"+GAME_ID+"/"+player+"/"+secret+"/"
+//    val urlNextMove = "http://bencarle.com/chess/move/"+GAME_ID+"/"+player+"/"+secret+"/"
 
     // Do the poll + move process every 5 seconds
 //    while (true && !GAME_OVER) {
       //move(urlPoll, urlNextMove)
       //Thread.sleep(5000)
 //    }
+
+    var ourMove = "Pe2e4"
+
+    // Translate our move letters to numbers here
+    val ourMoveTranslated = ourMove.split("").filter(x => x != "")
+    ourMoveTranslated(1) = interpretRank(ourMoveTranslated(1)).toString
+    ourMoveTranslated(3) = interpretRank(ourMoveTranslated(3)).toString
+
+    ourBoard = ourBoard.applyAction(ourMoveTranslated.mkString(""), playingAsWhite)
+
+    // Translate our move numbers to letters here
+    ourMoveTranslated(1) = reverseRank(ourMoveTranslated(1).toInt)
+    ourMoveTranslated(3) = reverseRank(ourMoveTranslated(3).toInt)
+    ourMove = ourMove.mkString("")
+
+    ourBoard.printBoard()
+
+    printPieceList(pieceListWhite)
+    printPieceList(pieceListBlack)
   }
 }
