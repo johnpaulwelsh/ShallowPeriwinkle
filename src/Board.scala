@@ -16,7 +16,7 @@ class Board(beginning: Boolean) {
     setPieceAt(7, 1, new Knight(7, 1, true))
     setPieceAt(8, 1, new Rook(  8, 1, true))
 
-    for (r <- 1 to 8) setPieceAt(r, 2, new Pawn(r, 2, true))
+    for (r <- 1 to 8) setPieceAt(r, 2, new Pawn(r, 2, true, true))
 
     for (r <- 1 to 8) {
       for (f <- 3 to 6) {
@@ -24,7 +24,7 @@ class Board(beginning: Boolean) {
       }
     }
 
-    for (r <- 1 to 8) setPieceAt(r, 7, new Pawn(r, 7, false))
+    for (r <- 1 to 8) setPieceAt(r, 7, new Pawn(r, 7, false, true))
 
     setPieceAt(1, 8, new Rook(  1, 8, false))
     setPieceAt(2, 8, new Knight(2, 8, false))
@@ -177,7 +177,28 @@ class Board(beginning: Boolean) {
     // Otherwise, put the moving piece into its end position,
     // the stuff above only affects other pieces on those special cases
     } else {
-      setPieceAt(endRank, endFile, pieceAt(startRank, startFile))
+
+      val newPiece = pieceAt(startRank, startFile) match {
+        case r: Rook   => new Rook(  endRank, endFile, isWhite)
+        case n: Knight => new Knight(endRank, endFile, isWhite)
+        case b: Bishop => new Bishop(endRank, endFile, isWhite)
+        case q: Queen  => new Queen( endRank, endFile, isWhite)
+        case k: King   => new King(  endRank, endFile, isWhite)
+        case p: Pawn   => new Pawn(  endRank, endFile, isWhite, false)
+      }
+
+      // Update the piece list, for real this time
+      if (isWhite) {
+        val replacedIdx = pieceListWhite.indexOf(ourBoard.pieceAt(startRank, startFile))
+        if (replacedIdx > 0) pieceListWhite = splice(pieceListWhite, replacedIdx, 1) :+ newPiece
+
+      } else {
+        val replacedIdx = pieceListBlack.indexOf(ourBoard.pieceAt(startRank, startFile))
+        if (replacedIdx > 0) pieceListBlack = splice(pieceListBlack, replacedIdx, 1) :+ newPiece
+      }
+
+      setPieceAt(endRank, endFile, newPiece)
+
     }
 
     // Create a new Blank in the beginning position

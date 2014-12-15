@@ -1,11 +1,11 @@
 import Common._
 
-class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
+class Pawn(r: Int, f: Int, isW: Boolean, isAtStart: Boolean) extends Piece {
   val isWhite = isW
   val isBlank = false
   var rank = r
   var file = f
-  var isInStartPosition = true
+  var isInStartPosition = isAtStart
 
   override def availableMoves(b: Board): List[String] = {
 
@@ -15,7 +15,6 @@ class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
 
     if(isWhite) {
 
-      // TODO: Make sure to set the pawn's isInStartPosition variable to false once we make this kind of move
       // White Pawn Up 2
       if(isInStartPosition) {
         if(b.pieceAt(rank, file + 2).isBlank == true) {
@@ -55,7 +54,6 @@ class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
     // Black
     } else {
 
-      // TODO: Make sure to set the pawn's isInStartPosition variable to false once we make this kind of move
       if(isInStartPosition) {
         // Black Pawn Down 2
         if(b.pieceAt(rank, file - 2).isBlank == true) {

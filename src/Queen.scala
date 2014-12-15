@@ -5,7 +5,7 @@ class Queen(r: Int, f: Int, isW: Boolean) extends Piece with BishopMoves with Ro
   var file = f
   var isInStartPosition = true
 
-  override def availableMoves(b: Board) = {
-    val dingo = super.getBishopMoves(b, "Q", rank, file, isWhite) :::
-    super.getRookMoves(b, "Q", rank, file, isWhite); println(dingo); dingo }
+  override def availableMoves(b: Board) =
+    super.getBishopMoves(b, "Q", rank, file, isWhite) :::
+    super.getRookMoves(b, "Q", rank, file, isWhite)
 }
