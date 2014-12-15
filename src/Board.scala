@@ -92,22 +92,23 @@ class Board(beginning: Boolean) {
     piece == "P" && Math.abs(startRank - endRank) > 0 && pieceAt(endRank, endFile).isBlank
   }
 
+  def isPromoting(secondPiece: String): Boolean = secondPiece != ""
+
   def applyAction(a: String, isWhite: Boolean): Board = {
 
     // We will gave already interpreted the ranks into numbers
     val split = a.split("").filter(x => x != "")
     val piece = split(0)
     val (startRank, startFile, endRank, endFile) = (split(1).toInt, split(2).toInt, split(3).toInt, split(4).toInt)
+    val secondPiece = if (split.length > 5) split(5) else ""
 
     // Update the piece list for the opposing player, if there is a capture going on
     if (isWhite) {
       val capturedIdx = pieceListBlack.indexOf(ourBoard.pieceAt(endRank, endFile))
-      if (capturedIdx > 0) {
-        pieceListBlack = splice(pieceListBlack, capturedIdx, 1)
-      }
+      if (capturedIdx > 0) pieceListBlack = splice(pieceListBlack, capturedIdx, 1)
     } else {
       val capturedIdx = pieceListWhite.indexOf(ourBoard.pieceAt(endRank, endFile))
-      pieceListWhite = splice(pieceListWhite, capturedIdx, 1)
+      if (capturedIdx > 0) pieceListWhite = splice(pieceListWhite, capturedIdx, 1)
     }
 
     // Do a special check for castling:
@@ -147,8 +148,7 @@ class Board(beginning: Boolean) {
         val capturedIdx = pieceListBlack.indexOf(ourBoard.pieceAt(endRank, endFile-1))
         if (capturedIdx > 0) pieceListBlack = splice(pieceListBlack, capturedIdx, 1)
         setPieceAt(endRank, endFile-1, new Blank(endRank, endFile-1))
-      }
-      else {
+      } else {
         val capturedIdx = pieceListWhite.indexOf(ourBoard.pieceAt(endRank, endFile+1))
         if (capturedIdx > 0) pieceListWhite = splice(pieceListWhite, capturedIdx, 1)
         setPieceAt(endRank, endFile+1, new Blank(endRank, endFile+1))
@@ -156,8 +156,28 @@ class Board(beginning: Boolean) {
 
     }
 
-    // Do the original move here, since the stuff above only affects other pieces on those special cases
-    setPieceAt(endRank, endFile, pieceAt(startRank, startFile))
+    // If we are promoting
+    if (isPromoting(secondPiece)) {
+
+      // Put a queen in the end position
+      setPieceAt(endRank, endFile, new Queen(endRank, endFile, isWhite))
+
+      // Remove the pawn from the piece list and add the queen
+      if (isWhite) {
+        val promotingIdx = pieceListWhite.indexOf(ourBoard.pieceAt(startRank, startFile))
+        if (promotingIdx > 0) pieceListWhite = splice(pieceListWhite, promotingIdx, 1)
+        pieceListWhite = new Queen(endRank, endFile, isWhite) +: pieceListWhite
+      } else {
+        val promotingIdx = pieceListBlack.indexOf(ourBoard.pieceAt(startRank, startFile))
+        if (promotingIdx > 0) pieceListBlack = splice(pieceListBlack, promotingIdx, 1)
+        pieceListBlack = new Queen(endRank, endFile, isWhite) +: pieceListBlack
+      }
+
+    // Otherwise, put the moving piece into its end position,
+    // the stuff above only affects other pieces on those special cases
+    } else {
+      setPieceAt(endRank, endFile, pieceAt(startRank, startFile))
+    }
 
     // Create a new Blank in the beginning position
     setPieceAt(startRank, startFile, new Blank(startRank, startFile))
