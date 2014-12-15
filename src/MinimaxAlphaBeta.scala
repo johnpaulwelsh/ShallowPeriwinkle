@@ -103,14 +103,14 @@ object MinimaxAlphaBeta {
    */
   def actions(state: Board, isWhite: Boolean): List[String] = {
 
-    def buildMoveList(ls: Array[Piece], accum: List[String]): List[String] = {
+    def buildMoveList(ls: Array[Piece], accum: List[List[String]]): List[List[String]] = {
       if (ls.isEmpty) accum
-      else            buildMoveList(ls.tail, ls.head.availableMoves(state) ++ accum)
+      else            buildMoveList(ls.tail, ls.head.availableMoves(state) :: accum)
     }
 
     val pieceList = if (isWhite) pieceListWhite else pieceListBlack
 
-    buildMoveList(pieceList, List[String]())
+    buildMoveList(pieceList, List(List[String]())).flatten
   }
 
   //
