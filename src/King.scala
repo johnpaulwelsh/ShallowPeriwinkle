@@ -14,9 +14,9 @@ class King(r: Int, f: Int, isW: Boolean) extends Piece {
     if (isWhite) {
       for (r <- 0 to 2) {
         for (f <- 0 to 2) {
-          if (rank+r > 8 || rank+r < 1 || file+f > 8 || file+f < 1) {
+          if (rank+moveDiffs(r) > 8 || rank+moveDiffs(r) < 1 || file+moveDiffs(f) > 8 || file+moveDiffs(f) < 1) {
             // king me!
-          } else if (!b.pieceAt(rank+r, file+f).isWhite) {
+          } else if (!b.pieceAt(rank+moveDiffs(r), file+moveDiffs(f)).isWhite) {
             moveList = moveList ::: List("K" + rank + file + (rank + moveDiffs(r)) + (file + moveDiffs(f)))
           }
         }
@@ -26,15 +26,18 @@ class King(r: Int, f: Int, isW: Boolean) extends Piece {
     } else {
       for (r <- 0 to 2) {
         for (f <- 0 to 2) {
-          if (rank+r > 8 || rank+r < 1 || file+f > 8 || file+f < 1) {
+          if (rank+moveDiffs(r) > 8 || rank+moveDiffs(r) < 1 || file+moveDiffs(f) > 8 || file+moveDiffs(f) < 1) {
             // king me!
-          } else if (b.pieceAt(rank+r, file+f).isBlank || b.pieceAt(rank+r, file+f).isWhite) {
+          } else if (b.pieceAt(rank+moveDiffs(r), file+moveDiffs(f)).isBlank
+                  || b.pieceAt(rank+moveDiffs(r), file+moveDiffs(f)).isWhite) {
             moveList = moveList ::: List("K" + rank + file + (rank + moveDiffs(r)) + (file + moveDiffs(f)))
           }
         }
       }
     }
 
-    moveList.filter(x => x == "K"+rank+file+rank+file)
+    // This already takes care of filtering out the Krfrf move cause there's a white piece at that spot!
+    moveList
+//    moveList.filter(x => x != "K"+rank+file+rank+file)
   }
 }
