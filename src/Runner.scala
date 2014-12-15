@@ -161,8 +161,8 @@ object Runner {
 //
 //    ourBoard.printBoard()
 
-    printPieceList(pieceListWhite)
+//    printPieceList(pieceListWhite)
 
-    println(MinimaxAlphaBeta.actions(ourBoard, playingAsWhite).count(x => x.substring(0, 1) != "P") + " moves available")
+    println(MinimaxAlphaBeta.actions(ourBoard, playingAsWhite).filter(x => x.substring(0, 1) != "P"))
   }
 }
