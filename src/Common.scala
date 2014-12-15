@@ -24,7 +24,8 @@ object Common {
   def maximum(values: Int*): Int = values.reduceLeft(_ max _)
   def minimum(values: Int*): Int = values.reduceLeft(_ min _)
 
-  def splice(arr: Array[Piece], startIdx: Int, count: Int): Array[Piece] = (arr.take(startIdx) ++ arr.drop(startIdx + count)).toArray
+  def splice(arr: Array[Piece], startIdx: Int, count: Int): Array[Piece] =
+    (arr.take(startIdx) ++ arr.drop(startIdx + count)).toArray
 
   // REAL LIFE
   // FILE IS VERTICAL COLUMNS, AND LETTERS
@@ -57,9 +58,9 @@ object Common {
   }
 
   def printPieceList(ls: Array[Piece]): Unit = {
-    ls.foreach(x => print(x.getClass.toString + " "))
+    ls.foreach(x => println(x.getClass + " " + x.rank + " " + x.file))
     println()
   }
   
-  def isValidSpot(r: Int, f: Int) = (r < 1) || (r > 8) || (f < 1) || (f > 8)
+  def isValidSpot(r: Int, f: Int) = !((r < 1) || (r > 8) || (f < 1) || (f > 8))
 }

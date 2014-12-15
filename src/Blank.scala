@@ -4,11 +4,11 @@
  *
  * @author John Paul Welsh
  */
-class Blank(f: Int, r: Int) extends Piece {
+class Blank(r: Int, f: Int) extends Piece {
   val isWhite = false
   val isBlank = true
-  val file = f
   val rank = r
+  val file = f
   var isInStartPosition = true
 
   // Blank pieces cannot move

@@ -9,7 +9,7 @@ import Common._
  
 trait BishopMoves {
 
-  def getBishopMoves(b: Board, rank: Int, file: Int, isWhite: Boolean): List[String] = {
+  def getBishopMoves(b: Board, piece: String, rank: Int, file: Int, isWhite: Boolean): List[String] = {
     var moveList = List[String]()
 
     if(isWhite) {
@@ -19,11 +19,11 @@ trait BishopMoves {
 
       while (validSpot) {
         if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
         } else if (possibleSpot.isWhite == true) {
           validSpot = false
         } else {
-          moveList = moveList  ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList  ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 		
@@ -43,11 +43,11 @@ trait BishopMoves {
 
       while (validSpot) {
         if(possibleSpot.isBlank == true) {
-          moveList = moveList  ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList  ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
         } else if (possibleSpot.isWhite == true) {
           validSpot = false
         } else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -66,11 +66,11 @@ trait BishopMoves {
 
       while (validSpot) {
         if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
         } else if (possibleSpot.isWhite == true) {
           validSpot = false
         } else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -90,11 +90,11 @@ trait BishopMoves {
 
       while (validSpot) {
         if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
         } else if (possibleSpot.isWhite == true) {
           validSpot = false
         } else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -112,11 +112,11 @@ trait BishopMoves {
 	
       while (validSpot) {
         if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
         } else if (possibleSpot.isWhite == false) {
           validSpot = false
         } else {
-          moveList = moveList  ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList  ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 		
@@ -136,7 +136,7 @@ trait BishopMoves {
       while (validSpot) {
 
         if(possibleSpot.isBlank == true) {
-          moveList = moveList  ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList  ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == false) {
@@ -144,7 +144,7 @@ trait BishopMoves {
         }
 
         else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -165,7 +165,7 @@ trait BishopMoves {
       while (validSpot) {
 
         if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == false) {
@@ -173,7 +173,7 @@ trait BishopMoves {
         }
 
         else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
@@ -193,7 +193,7 @@ trait BishopMoves {
       while (validSpot) {
 
         if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == false) {
@@ -201,7 +201,7 @@ trait BishopMoves {
         }
 
         else {
-          moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
+          moveList = moveList ::: List(piece + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 

@@ -67,6 +67,7 @@ class Board(beginning: Boolean) {
     isC
   }
 
+  // TODO: this can be simpler, just check if the king has been captured
   def isCheckmate(isWhite: Boolean): Boolean = {
     var isCM = true
     if (ourBoard.isCheck(isWhite)) {

@@ -5,5 +5,5 @@ class Rook(r: Int, f: Int, isW: Boolean) extends Piece with RookMoves {
   var file = f
   var isInStartPosition = true
 
-  override def availableMoves(b: Board): List[String] = super.getRookMoves(b, rank, file, isWhite)
+  override def availableMoves(b: Board): List[String] = super.getRookMoves(b, "R", rank, file, isWhite)
 }

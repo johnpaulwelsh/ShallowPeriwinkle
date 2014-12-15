@@ -142,20 +142,27 @@ object Runner {
     var ourMove = "Pe2e4"
 
     // Translate our move letters to numbers here
-    val ourMoveTranslated = ourMove.split("").filter(x => x != "")
+    var ourMoveTranslated = ourMove.split("").filter(x => x != "")
     ourMoveTranslated(1) = interpretRank(ourMoveTranslated(1)).toString
     ourMoveTranslated(3) = interpretRank(ourMoveTranslated(3)).toString
 
     ourBoard = ourBoard.applyAction(ourMoveTranslated.mkString(""), playingAsWhite)
 
-    // Translate our move numbers to letters here
-    ourMoveTranslated(1) = reverseRank(ourMoveTranslated(1).toInt)
-    ourMoveTranslated(3) = reverseRank(ourMoveTranslated(3).toInt)
-    ourMove = ourMove.mkString("")
-
     ourBoard.printBoard()
 
+//    ourMove = "Pe2e4"
+//
+//    // Translate our move letters to numbers here
+//    ourMoveTranslated = ourMove.split("").filter(x => x != "")
+//    ourMoveTranslated(1) = interpretRank(ourMoveTranslated(1)).toString
+//    ourMoveTranslated(3) = interpretRank(ourMoveTranslated(3)).toString
+//
+//    ourBoard = ourBoard.applyAction(ourMoveTranslated.mkString(""), playingAsWhite)
+//
+//    ourBoard.printBoard()
+
     printPieceList(pieceListWhite)
-    printPieceList(pieceListBlack)
+
+    println(MinimaxAlphaBeta.actions(ourBoard, playingAsWhite).filter(x => x.substring(0, 1) != "P"))
   }
 }
