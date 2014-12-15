@@ -16,8 +16,8 @@ class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
     if(isWhite) {
 
       // TODO: Make sure to set the pawn's isInStartPosition variable to false once we make this kind of move
+      // White Pawn Up 2
       if(isInStartPosition) {
-         // White Pawn Up 2
         if(b.pieceAt(rank + 2, file).isBlank == true) {
           nextRank = rank + 2
           nextFile = file
@@ -26,31 +26,31 @@ class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
       }
 
       //White Pawn Up 1
-	  if(isValidSpot(rank + 1, file) {
-		  if(b.pieceAt(rank + 1, file).isBlank == true) {
-			nextRank = rank + 1
-			nextFile = file
-			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-		  }
-	  }
+      if(isValidSpot(rank + 1, file)) {
+        if(b.pieceAt(rank + 1, file).isBlank == true) {
+        nextRank = rank + 1
+        nextFile = file
+        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+        }
+      }
 
       // White Pawn Attack Board Left
       if (isValidSpot(rank + 1, file - 1)) {
-		  if ((b.pieceAt(rank + 1, file - 1).isWhite == false) && (b.pieceAt(rank + 1, file - 1).isBlank == false)) {
-			nextRank = rank + 1
-			nextFile = file - 1
-			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-		  }
-	  }
+        if ((b.pieceAt(rank + 1, file - 1).isWhite == false) && (b.pieceAt(rank + 1, file - 1).isBlank == false)) {
+        nextRank = rank + 1
+        nextFile = file - 1
+        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+        }
+	    }
 
       // White Pawn Attack Board Right
       if (isValidSpot(rank + 1, file + 1)) {
-		  if ((b.pieceAt(rank + 1, file + 1).isWhite == false) && (b.pieceAt(rank + 1, file + 1).isBlank == false)) {
-			nextRank = rank + 1
-			nextFile = file + 1
-			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-		  }
-	  }
+        if ((b.pieceAt(rank + 1, file + 1).isWhite == false) && (b.pieceAt(rank + 1, file + 1).isBlank == false)) {
+        nextRank = rank + 1
+        nextFile = file + 1
+        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+        }
+	    }
 
     } else {
 
@@ -65,31 +65,31 @@ class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
       }
 
       // Black Pawn Down 1
-	  if (isValidSpot(rank - 1, file)) {
-		  if(b.pieceAt(rank - 1, file).isBlank == true) {
-			nextRank = rank - 1
-			nextFile = file
-			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-		  }
-	  }
+      if (isValidSpot(rank - 1, file)) {
+        if(b.pieceAt(rank - 1, file).isBlank == true) {
+        nextRank = rank - 1
+        nextFile = file
+        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+        }
+      }
 
       // Black Pawn Attack Board Left
-	  if (isValidSpot(rank - 1, file - 1)) {
-		  if ((b.pieceAt(rank - 1, file - 1).isWhite == false) && (b.pieceAt(rank - 1, file - 1).isBlank == false)) {
-			nextRank = rank - 1
-			nextFile = file - 1
-			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-		  }
-	  }
+      if (isValidSpot(rank - 1, file - 1)) {
+        if ((b.pieceAt(rank - 1, file - 1).isWhite == false) && (b.pieceAt(rank - 1, file - 1).isBlank == false)) {
+        nextRank = rank - 1
+        nextFile = file - 1
+        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+        }
+      }
 
       //Black Pawn Attack Board Right
-	  if (isValidSpot(rank - 1, file + 1)) {
-		  if ((b.pieceAt(rank - 1, file + 1).isWhite == false) && (b.pieceAt(rank - 1, file + 1).isBlank == false)) {
-			nextRank = rank - 1
-			nextFile = file + 1
-			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-		  }
-	  }
+      if (isValidSpot(rank - 1, file + 1)) {
+        if ((b.pieceAt(rank - 1, file + 1).isWhite == false) && (b.pieceAt(rank - 1, file + 1).isBlank == false)) {
+        nextRank = rank - 1
+        nextFile = file + 1
+        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+        }
+      }
 
     }
 

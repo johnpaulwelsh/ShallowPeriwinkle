@@ -102,16 +102,15 @@ object MinimaxAlphaBeta {
    * All possible actions that can be taken on this board.
    */
   def actions(state: Board, isWhite: Boolean): List[String] = {
-    var moveList = List[String]()
-    for (r <- 1 to state.boardArray.length) {
-      for (f <- 1 to state.boardArray(0).length) {
-        // If the piece is not blank and it matches our color
-        if (!state.pieceAt(r, f).isBlank && state.pieceAt(r, f).isWhite == isWhite) {
-          moveList = moveList ::: state.pieceAt(r, f).availableMoves(state)
-        }
-      }
+
+    def buildMoveList(ls: Array[Piece], accum: List[String]): List[String] = {
+      if (ls.isEmpty) accum
+      else            buildMoveList(ls.tail, ls.head.availableMoves(state) ++ accum)
     }
-    moveList
+
+    val pieceList = if (isWhite) pieceListWhite else pieceListBlack
+
+    buildMoveList(pieceList, List[String]())
   }
 
   //
@@ -123,50 +122,52 @@ object MinimaxAlphaBeta {
 
 
   def maxValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
+    if (terminalTest(state, playingAsWhite) || depthLimit < 1) {
+      ("none", eval(state, playingAsWhite))
+    } else {
+      var mutAlpha = alpha
+      val acts = actions(state, playingAsWhite)
+      var bestMove = acts.head
+      var bestVal = NEGATIVE_INFINITY
 
-    if (terminalTest(state, true) || depthLimit < 1) return ("none", eval(state, true))
-
-    var mutAlpha = alpha
-    val acts = actions(state, true)
-    var bestMove = acts.head
-    var bestVal = NEGATIVE_INFINITY
-
-    // Translate into recursion or a while loop
-    for (a <- acts) {
-       val (currAction, v) = (a, minValue(result(state, a, true), mutAlpha, beta, depthLimit-1)._2)
-       if (v > bestVal) {
+      var count = 0
+      while (beta <= mutAlpha && count < acts.length) {
+        val a = acts(count)
+        val (currAction, v) = (a, minValue(result(state, a, playingAsWhite), mutAlpha, beta, depthLimit - 1)._2)
+        if (v > bestVal) {
           bestMove = currAction
           bestVal = v
           mutAlpha = v
-       }
+        }
+        count += 1
+      }
 
-       if (beta > mutAlpha) return (bestMove, bestVal)
+      (bestMove, bestVal)
     }
-
-    (bestMove, bestVal)
   }
 
   def minValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
+    if (terminalTest(state, !playingAsWhite) || depthLimit < 1) {
+      ("none", eval(state, !playingAsWhite))
+    } else {
+      var mutBeta = beta
+      val acts = actions(state, !playingAsWhite)
+      var bestMove = acts.head
+      var bestVal = NEGATIVE_INFINITY
 
-    if (terminalTest(state, false) || depthLimit < 1) return ("none", eval(state, false))
-
-    var mutBeta = beta
-    val acts = actions(state, false)
-    var bestMove = acts.head
-    var bestVal = NEGATIVE_INFINITY
-
-    // Translate into recursion or a while loop
-    for (a <- acts) {
-       val (currAction, v) = (a, maxValue(result(state, a, false), alpha, mutBeta, depthLimit-1)._2)
-       if (v > bestVal) {
+      var count = 0
+      while (alpha >= mutBeta && count < acts.length) {
+        val a = acts(count)
+        val (currAction, v) = (a, maxValue(result(state, a, !playingAsWhite), alpha, mutBeta, depthLimit - 1)._2)
+        if (v > bestVal) {
           bestMove = currAction
           bestVal = v
           mutBeta = v
-       }
+        }
+        count += 1
+      }
 
-       if (mutBeta < alpha) return (bestMove, bestVal)
+      (bestMove, bestVal)
     }
-
-    (bestMove, bestVal)
   }
 }

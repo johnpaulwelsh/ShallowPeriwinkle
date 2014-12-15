@@ -14,159 +14,124 @@ trait BishopMoves {
 
     if(isWhite) {
 
-	  if (isValidSpot(rank+1, file+1) {
-		var possibleSpot = b.pieceAt(rank+1, file+1)
-		var validSpot = true
-      }
-	  else 
-		var validSpot = true
-	
-      while (validSpot) {
+      var possibleSpot = if (isValidSpot(rank+1, file+1)) b.pieceAt(rank+1, file) else null
+      var validSpot = isValidSpot(rank+1, file+1)
 
+      while (validSpot) {
         if(possibleSpot.isBlank == true) {
           moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
-        }
-
-        else if (possibleSpot.isWhite == true) {
+        } else if (possibleSpot.isWhite == true) {
           validSpot = false
-        }
-
-        else {
+        } else {
           moveList = moveList  ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 		
-		if (isValidSpot(possibleSpot.rank + 1, possibleSpot.file + 1)
-			possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file + 1)
-		else
-		    validSpot = false
+        if (isValidSpot(possibleSpot.rank + 1, possibleSpot.file + 1)) {
+          possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file + 1)
+        } else {
+          validSpot = false
+        }
       }
 
-	  if (isValidSpot(rank-1, file+1) {
-		possibleSpot = b.pieceAt(rank-1, file+1)
-		validSpot = true
+	    if (isValidSpot(rank-1, file+1)) {
+        possibleSpot = b.pieceAt(rank - 1, file + 1)
+        validSpot = true
+      } else {
+        validSpot = false
       }
-	  else
-	    validSpot = false
-		
+
       while (validSpot) {
-
         if(possibleSpot.isBlank == true) {
           moveList = moveList  ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
-        }
-
-        else if (possibleSpot.isWhite == true) {
+        } else if (possibleSpot.isWhite == true) {
           validSpot = false
-        }
-
-        else {
+        } else {
           moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
-		if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file + 1))
-			possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file + 1)
-	    else
-		    validSpot = false
-
+		    if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file + 1))
+			    possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file + 1)
+	      else
+		      validSpot = false
       }
 
-	  if (isValidSpot(rank-1, file-1)) {
-		possibleSpot = b.pieceAt(rank-1, file-1)
-		validSpot = true
-	  }
-	  else
-	    validSpot = false
-		
-      while (validSpot) {
+      if (isValidSpot(rank-1, file-1)) {
+        possibleSpot = b.pieceAt(rank-1, file-1)
+        validSpot = true
+      } else {
+        validSpot = false
+      }
 
+      while (validSpot) {
         if(possibleSpot.isBlank == true) {
           moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
-        }
-
-        else if (possibleSpot.isWhite == true) {
+        } else if (possibleSpot.isWhite == true) {
           validSpot = false
-        }
-
-        else {
+        } else {
           moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
-		if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file - 1))
+		    if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file - 1)) {
           possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file - 1)
-		else
-		  validSpot = false
-
+        } else {
+          validSpot = false
+        }
       }
 
-	  if (isValidSpot(rank+1, file-1))
-		possibleSpot = b.pieceAt(rank+1, file-1)
-		validSpot = true
-	  else
-	    validSpot = false
-		
-      while (validSpot) {
+	    if (isValidSpot(rank+1, file-1)) {
+        possibleSpot = b.pieceAt(rank + 1, file - 1)
+        validSpot = true
+      } else {
+        validSpot = false
+      }
 
+      while (validSpot) {
         if(possibleSpot.isBlank == true) {
           moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
-        }
-
-        else if (possibleSpot.isWhite == true) {
+        } else if (possibleSpot.isWhite == true) {
           validSpot = false
-        }
-
-        else {
+        } else {
           moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 
-		if (isValidSpot(possibleSpot.rank + 1, possibleSpot.file - 1))
-		  possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file - 1)
-		else
-		  validSpot = false
-
+		    if (isValidSpot(possibleSpot.rank + 1, possibleSpot.file - 1))
+		      possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file - 1)
+		    else
+		      validSpot = false
       }
-
-    }
 
     // Black
-    else {
+    } else {
 
-      if (isValidSpot(rank+1, file+1) {
-		var possibleSpot = b.pieceAt(rank+1, file+1)
-		var validSpot = true
-      }
-	  else 
-		var validSpot = true
+      var possibleSpot = if (isValidSpot(rank+1, file)) b.pieceAt(rank+1, file) else null
+      var validSpot = isValidSpot(rank+1, file)
 	
       while (validSpot) {
-
         if(possibleSpot.isBlank == true) {
           moveList = moveList ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
-        }
-
-        else if (possibleSpot.isWhite == false) {
+        } else if (possibleSpot.isWhite == false) {
           validSpot = false
-        }
-
-        else {
+        } else {
           moveList = moveList  ::: List("B" + rank + file + possibleSpot.rank + possibleSpot.file)
           validSpot = false
         }
 		
-		if (isValidSpot(possibleSpot.rank + 1, possibleSpot.file + 1)
-			possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file + 1)
-		else
-		    validSpot = false
+		    if (isValidSpot(possibleSpot.rank + 1, possibleSpot.file + 1))
+			    possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file + 1)
+		    else
+		      validSpot = false
       }
 
-	  if (isValidSpot(rank-1, file+1) {
-		possibleSpot = b.pieceAt(rank-1, file+1)
-		validSpot = true
+	    if (isValidSpot(rank-1, file+1)) {
+		    possibleSpot = b.pieceAt(rank-1, file+1)
+		    validSpot = true
       }
-	  else
-	    validSpot = false
+	    else
+	      validSpot = false
 		
       while (validSpot) {
 
@@ -183,19 +148,19 @@ trait BishopMoves {
           validSpot = false
         }
 
-		if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file + 1))
-			possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file + 1)
+		  if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file + 1))
+			  possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file + 1)
 	    else
 		    validSpot = false
 
       }
 
-	  if (isValidSpot(rank-1, file-1)) {
-		possibleSpot = b.pieceAt(rank-1, file-1)
-		validSpot = true
-	  }
-	  else
-	    validSpot = false
+      if (isValidSpot(rank-1, file-1)) {
+        possibleSpot = b.pieceAt(rank-1, file-1)
+        validSpot = true
+      }
+      else
+        validSpot = false
 		
       while (validSpot) {
 
@@ -212,18 +177,18 @@ trait BishopMoves {
           validSpot = false
         }
 
-		if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file - 1))
+		  if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file - 1))
           possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file - 1)
-		else
-		  validSpot = false
+		  else
+		    validSpot = false
 
       }
 
-	  if (isValidSpot(rank+1, file-1))
-		possibleSpot = b.pieceAt(rank+1, file-1)
-		validSpot = true
-	  else
-	    validSpot = false
+	    if (isValidSpot(rank+1, file-1)) {
+        possibleSpot = b.pieceAt(rank + 1, file - 1)
+        validSpot = true
+      } else
+	      validSpot = false
 		
       while (validSpot) {
 
@@ -240,11 +205,10 @@ trait BishopMoves {
           validSpot = false
         }
 
-		if (isValidSpot(possibleSpot.rank + 1, possibleSpot.file - 1))
-		  possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file - 1)
-		else
-		  validSpot = false
-
+		  if (isValidSpot(possibleSpot.rank + 1, possibleSpot.file - 1))
+		    possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file - 1)
+		  else
+		    validSpot = false
       }
 
     }

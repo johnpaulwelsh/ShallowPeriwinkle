@@ -18,11 +18,13 @@ object Common {
   var playingAsWhite: Boolean = false
 
   // Arrays of tuples representing the ranks and files of all remaining pieces
-//  var pieceListWhite = Array[(Int, Int)]()
-//  var pieceListBlack = Array[(Int, Int)]()
+  var pieceListWhite = Array[Piece]()
+  var pieceListBlack = Array[Piece]()
 
   def maximum(values: Int*): Int = values.reduceLeft(_ max _)
   def minimum(values: Int*): Int = values.reduceLeft(_ min _)
+
+  def splice(arr: Array[Piece], startIdx: Int, count: Int): Array[Piece] = (arr.take(startIdx) ++ arr.drop(startIdx + count)).toArray
 
   // REAL LIFE
   // FILE IS VERTICAL COLUMNS, AND LETTERS
@@ -53,13 +55,11 @@ object Common {
     case 7 => "g"
     case 8 => "h"
   }
-  
-  def isValidSpot(r: Int, f: Int) {
-  
-    if ((r < 1) || (r > 8) || (f < 1) || (f > 8))
-	  return false
-	else
-	  return true
-  
+
+  def printPieceList(ls: Array[Piece]): Unit = {
+    ls.foreach(x => print(x.getClass.toString + " "))
+    println()
   }
+  
+  def isValidSpot(r: Int, f: Int) = (r < 1) || (r > 8) || (f < 1) || (f > 8)
 }
