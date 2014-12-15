@@ -1,3 +1,5 @@
+import Common._
+
 class King(r: Int, f: Int, isW: Boolean) extends Piece {
   val isWhite = isW
   val isBlank = false
@@ -12,7 +14,7 @@ class King(r: Int, f: Int, isW: Boolean) extends Piece {
     if (isWhite) {
       for (r <- 0 to 2) {
         for (f <- 0 to 2) {
-          if (rank+r > 8 || rank+r < 0 || file+f > 8 || file+f < 0) {
+          if (rank+r > 8 || rank+r < 1 || file+f > 8 || file+f < 1) {
             // king me!
           } else if (!b.pieceAt(rank+r, file+f).isWhite) {
             moveList = moveList ::: List("K" + rank + file + (rank + moveDiffs(r)) + (file + moveDiffs(f)))
@@ -24,7 +26,7 @@ class King(r: Int, f: Int, isW: Boolean) extends Piece {
     } else {
       for (r <- 0 to 2) {
         for (f <- 0 to 2) {
-          if (rank+r > 8 || rank+r < 0 || file+f > 8 || file+f < 0) {
+          if (rank+r > 8 || rank+r < 1 || file+f > 8 || file+f < 1) {
             // king me!
           } else if (b.pieceAt(rank+r, file+f).isBlank || b.pieceAt(rank+r, file+f).isWhite) {
             moveList = moveList ::: List("K" + rank + file + (rank + moveDiffs(r)) + (file + moveDiffs(f)))

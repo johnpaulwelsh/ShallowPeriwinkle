@@ -1,3 +1,5 @@
+import Common._
+
 class Knight(r: Int, f: Int, isW: Boolean) extends Piece {
   val isWhite = isW
   val isBlank = false

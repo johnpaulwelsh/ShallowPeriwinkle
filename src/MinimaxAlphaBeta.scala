@@ -50,8 +50,8 @@ object MinimaxAlphaBeta {
       stateVal = POSITIVE_INFINITY
     else {
 
-        for (r <- 0 until state.boardArray.length) {
-          for (f <- 0 until state.boardArray(0).length) {
+        for (r <- 1 to state.boardArray.length) {
+          for (f <- 1 to state.boardArray(0).length) {
             if (!state.pieceAt(r, f).isBlank) {
               val thisPiece = state.pieceAt(r,f)
 
@@ -103,8 +103,8 @@ object MinimaxAlphaBeta {
    */
   def actions(state: Board, isWhite: Boolean): List[String] = {
     var moveList = List[String]()
-    for (r <- 0 until state.boardArray.length) {
-      for (f <- 0 until state.boardArray(0).length) {
+    for (r <- 1 to state.boardArray.length) {
+      for (f <- 1 to state.boardArray(0).length) {
         // If the piece is not blank and it matches our color
         if (!state.pieceAt(r, f).isBlank && state.pieceAt(r, f).isWhite == isWhite) {
           moveList = moveList ::: state.pieceAt(r, f).availableMoves(state)

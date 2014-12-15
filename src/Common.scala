@@ -53,4 +53,13 @@ object Common {
     case 7 => "g"
     case 8 => "h"
   }
+  
+  def isValidSpot(r: Int, f: Int) {
+  
+    if ((r < 1) || (r > 8) || (f < 1) || (f > 8))
+	  return false
+	else
+	  return true
+  
+  }
 }

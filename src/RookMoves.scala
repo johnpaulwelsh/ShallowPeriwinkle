@@ -2,22 +2,26 @@
  * A trait that gives the ability to move like a Rook to any piece that
  * mixes it in (like Rook and Queen).
  */
+ 
+import Common._ 
+ 
 trait RookMoves {
 
   def getRookMoves(b: Board, rank: Int, file: Int, isWhite: Boolean): List[String] = {
     var moveList = List[String]()
-    var possibleSpot = b.pieceAt(rank+1, file)
-    var validSpot = true
 
     if(isWhite) {
+	
+	  if (isValidSpot(rank+1, file)) {
+		var possibleSpot = b.pieceAt(rank+1, file)
+		var validSpot = true
+      }
+	  else
+	    var validSpot = false
 
       while (validSpot) {
 
-        if(possibleSpot.rank > 8 || possibleSpot.rank < 1 || possibleSpot.file > 8 || possibleSpot.file < 1) {
-          validSpot = false
-        }
-
-        else if(possibleSpot.isBlank == true) {
+        if(possibleSpot.isBlank == true) {
           moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
@@ -30,18 +34,23 @@ trait RookMoves {
           validSpot = false
         }
 
-        possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file)
+		if (isValidSpot(possibleSpot.rank + 1, possibleSpot.file))
+			possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file)
+	    else
+		    validSpot = false
+			
       }
 
-      possibleSpot = b.pieceAt(rank-1, file)
-      validSpot = true
+	  if (isValidSpot(rank-1, file)) {
+		possibleSpot = b.pieceAt(rank-1, file)
+		validSpot = true
+	  }
+	  else
+	    validSpot = false
+		
       while (validSpot) {
 
-        if(possibleSpot.rank > 8 || possibleSpot.rank < 1 || possibleSpot.file > 8 || possibleSpot.file < 1) {
-          validSpot = false
-        }
-
-        else if(possibleSpot.isBlank == true) {
+        if(possibleSpot.isBlank == true) {
           moveList = moveList  ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
@@ -54,19 +63,23 @@ trait RookMoves {
           validSpot = false
         }
 
-        possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file)
+		if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file))
+			possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file)
+	    else
+		    validSpot = false
 
       }
 
-      possibleSpot = b.pieceAt(rank, file-1)
-      validSpot = true
+	  if (isValidSpot(rank, file-1)) {
+		possibleSpot = b.pieceAt(rank, file-1)
+		validSpot = true
+	  }
+	  else
+	   validSpot = false
+	   
       while (validSpot) {
 
-        if(possibleSpot.rank > 8 || possibleSpot.rank < 1 || possibleSpot.file > 8 || possibleSpot.file < 1) {
-          validSpot = false
-        }
-
-        else if(possibleSpot.isBlank == true) {
+        if(possibleSpot.isBlank == true) {
           moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
@@ -79,19 +92,23 @@ trait RookMoves {
           validSpot = false
         }
 
-        possibleSpot = b.pieceAt(possibleSpot.rank, possibleSpot.file - 1)
+		if (isValidSpot(possibleSpot.rank, possibleSpot.file - 1))
+			possibleSpot = b.pieceAt(possibleSpot.rank, possibleSpot.file - 1)
+	    else
+		    validSpot = false
 
       }
 
-      possibleSpot = b.pieceAt(rank, file+1)
-      validSpot = true
+	  if (isValidSpot(rank, file+1)) {
+		possibleSpot = b.pieceAt(rank, file+1)
+		validSpot = true
+	  }
+	  else
+	    validSpot = false
+		
       while (validSpot) {
 
-        if(possibleSpot.rank > 8 || possibleSpot.rank < 1 || possibleSpot.file > 8 || possibleSpot.file < 1) {
-          validSpot = false
-        }
-
-        else if(possibleSpot.isBlank == true) {
+        if(possibleSpot.isBlank == true) {
           moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
@@ -104,7 +121,10 @@ trait RookMoves {
           validSpot = false
         }
 
-        possibleSpot = b.pieceAt(possibleSpot.rank, possibleSpot.file + 1)
+		if (isValidSpot(possibleSpot.rank, possibleSpot.file + 1))
+			possibleSpot = b.pieceAt(possibleSpot.rank, possibleSpot.file + 1)
+	    else
+		    validSpot = false
 
       }
 
@@ -113,16 +133,46 @@ trait RookMoves {
     // Black
     else {
 
-      possibleSpot = b.pieceAt(rank+1, file)
-      validSpot = true
+      if (isValidSpot(rank+1, file)) {
+		var possibleSpot = b.pieceAt(rank+1, file)
+		var validSpot = true
+      }
+	  else
+	    var validSpot = false
+
       while (validSpot) {
 
-        if(possibleSpot.rank > 8 || possibleSpot.rank < 1 || possibleSpot.file > 8 || possibleSpot.file < 1) {
+        if(possibleSpot.isBlank == true) {
+          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
+        }
+
+        else if (possibleSpot.isWhite == false) {
           validSpot = false
         }
 
-        else if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
+        else {
+          moveList = moveList  ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
+          validSpot = false
+        }
+
+		if (isValidSpot(possibleSpot.rank + 1, possibleSpot.file))
+			possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file)
+	    else
+		    validSpot = false
+			
+      }
+
+	  if (isValidSpot(rank-1, file)) {
+		possibleSpot = b.pieceAt(rank-1, file)
+		validSpot = true
+	  }
+	  else
+	    validSpot = false
+		
+      while (validSpot) {
+
+        if(possibleSpot.isBlank == true) {
+          moveList = moveList  ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
         else if (possibleSpot.isWhite == false) {
@@ -134,19 +184,23 @@ trait RookMoves {
           validSpot = false
         }
 
-        possibleSpot = b.pieceAt(possibleSpot.rank + 1, possibleSpot.file)
+		if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file))
+			possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file)
+	    else
+		    validSpot = false
 
       }
 
-      possibleSpot = b.pieceAt(rank-1, file)
-      validSpot = true
+	  if (isValidSpot(rank, file-1)) {
+		possibleSpot = b.pieceAt(rank, file-1)
+		validSpot = true
+	  }
+	  else
+	   validSpot = false
+	   
       while (validSpot) {
 
-        if(possibleSpot.rank > 8 || possibleSpot.rank < 1 || possibleSpot.file > 8 || possibleSpot.file < 1) {
-          validSpot = false
-        }
-
-        else if(possibleSpot.isBlank == true) {
+        if(possibleSpot.isBlank == true) {
           moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
@@ -159,19 +213,23 @@ trait RookMoves {
           validSpot = false
         }
 
-        possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file)
+		if (isValidSpot(possibleSpot.rank, possibleSpot.file - 1))
+			possibleSpot = b.pieceAt(possibleSpot.rank, possibleSpot.file - 1)
+	    else
+		    validSpot = false
 
       }
 
-      possibleSpot = b.pieceAt(rank, file-1)
-      validSpot = true
+	  if (isValidSpot(rank, file+1)) {
+		possibleSpot = b.pieceAt(rank, file+1)
+		validSpot = true
+	  }
+	  else
+	    validSpot = false
+		
       while (validSpot) {
 
-        if(possibleSpot.rank > 8 || possibleSpot.rank < 1 || possibleSpot.file > 8 || possibleSpot.file < 1) {
-          validSpot = false
-        }
-
-        else if(possibleSpot.isBlank == true) {
+        if(possibleSpot.isBlank == true) {
           moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
         }
 
@@ -184,32 +242,10 @@ trait RookMoves {
           validSpot = false
         }
 
-        possibleSpot = b.pieceAt(possibleSpot.rank, possibleSpot.file - 1)
-
-      }
-
-      possibleSpot = b.pieceAt(rank, file+1)
-      validSpot = true
-      while (validSpot) {
-
-        if(possibleSpot.rank > 8 || possibleSpot.rank < 1 || possibleSpot.file > 8 || possibleSpot.file < 1) {
-          validSpot = false
-        }
-
-        else if(possibleSpot.isBlank == true) {
-          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
-        }
-
-        else if (possibleSpot.isWhite == false) {
-          validSpot = false
-        }
-
-        else {
-          moveList = moveList ::: List("R" + rank + file + possibleSpot.rank + possibleSpot.file)
-          validSpot = false
-        }
-
-        possibleSpot = b.pieceAt(possibleSpot.rank, possibleSpot.file + 1)
+		if (isValidSpot(possibleSpot.rank, possibleSpot.file + 1))
+			possibleSpot = b.pieceAt(possibleSpot.rank, possibleSpot.file + 1)
+	    else
+		    validSpot = false
 
       }
 

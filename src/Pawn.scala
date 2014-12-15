@@ -1,3 +1,5 @@
+import Common._
+
 class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
   val isWhite = isW
   val isBlank = false
@@ -15,33 +17,39 @@ class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
 
       if(isInStartPosition) {
          // White Pawn Up 2
-        if(b.pieceAt(r + 2, f).isBlank == true) {
-          nextRank = rank+2
+        if(b.pieceAt(rank + 2, file).isBlank == true) {
+          nextRank = rank + 2
           nextFile = file
           moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
         }
       }
 
       //White Pawn Up 1
-      if(b.pieceAt(r + 1, f).isBlank == true) {
-        nextRank = r+1
-        nextFile = f
-        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-      }
+	  if(isValidSpot(rank + 1, file) {
+		  if(b.pieceAt(rank + 1, file).isBlank == true) {
+			nextRank = rank + 1
+			nextFile = file
+			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+		  }
+	  }
 
       // White Pawn Attack Board Left
-      if ((b.pieceAt(r + 1, f - 1).isWhite == false) && (b.pieceAt(r + 1, f - 1).isBlank == false)) {
-        nextRank = r+1
-        nextFile = f-1
-        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-      }
+      if (isValidSpot(rank + 1, file - 1)) {
+		  if ((b.pieceAt(rank + 1, file - 1).isWhite == false) && (b.pieceAt(rank + 1, file - 1).isBlank == false)) {
+			nextRank = rank + 1
+			nextFile = file - 1
+			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+		  }
+	  }
 
       // White Pawn Attack Board Right
-      if ((b.pieceAt(r + 1, f + 1).isWhite == false) && (b.pieceAt(r + 1, f + 1).isBlank == false)) {
-        nextRank = r+1
-        nextFile = f+1
-        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-      }
+      if (isValidSpot(rank + 1, file + 1)) {
+		  if ((b.pieceAt(rank + 1, file + 1).isWhite == false) && (b.pieceAt(rank + 1, file + 1).isBlank == false)) {
+			nextRank = rank + 1
+			nextFile = file + 1
+			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+		  }
+	  }
 
     }
 
@@ -49,33 +57,39 @@ class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
 
       if(isInStartPosition) {
         // Black Pawn Down 2
-        if(b.pieceAt(r - 2, f).isBlank == true) {
-          nextRank = r-2
-          nextFile = f
+        if(b.pieceAt(rank - 2, file).isBlank == true) {
+          nextRank = rank - 2
+          nextFile = file
           moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
         }
       }
 
       // Black Pawn Down 1
-      if(b.pieceAt(r - 1, f).isBlank == true) {
-        nextRank = r-1
-        nextFile = f
-        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-      }
+	  if (isValidSpot(rank - 1, file)) {
+		  if(b.pieceAt(rank - 1, file).isBlank == true) {
+			nextRank = rank - 1
+			nextFile = file
+			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+		  }
+	  }
 
       // Black Pawn Attack Board Left
-      if ((b.pieceAt(r - 1, f - 1).isWhite == false) && (b.pieceAt(r - 1, f - 1).isBlank == false)) {
-        nextRank = r-1
-        nextFile = f-1
-        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-      }
+	  if (isValidSpot(rank - 1, file - 1)) {
+		  if ((b.pieceAt(rank - 1, file - 1).isWhite == false) && (b.pieceAt(rank - 1, file - 1).isBlank == false)) {
+			nextRank = rank - 1
+			nextFile = file - 1
+			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+		  }
+	  }
 
       //Black Pawn Attack Board Right
-      if ((b.pieceAt(r - 1, f + 1).isWhite == false) && (b.pieceAt(r - 1, f + 1).isBlank == false)) {
-        nextRank = r-1
-        nextFile = f+1
-        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
-      }
+	  if (isValidSpot(rank - 1, file + 1)) {
+		  if ((b.pieceAt(rank - 1, file + 1).isWhite == false) && (b.pieceAt(rank - 1, file + 1).isBlank == false)) {
+			nextRank = rank - 1
+			nextFile = file + 1
+			moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+		  }
+	  }
 
     }
 
