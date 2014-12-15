@@ -14,7 +14,7 @@ trait BishopMoves {
 
     if(isWhite) {
 
-      var possibleSpot = if (isValidSpot(rank+1, file+1)) b.pieceAt(rank+1, file) else null
+      var possibleSpot = if (isValidSpot(rank+1, file+1)) b.pieceAt(rank+1, file+1) else null
       var validSpot = isValidSpot(rank+1, file+1)
 
       while (validSpot) {
@@ -105,10 +105,12 @@ trait BishopMoves {
       }
 
     // Black
-    } else {
+    }
 
-      var possibleSpot = if (isValidSpot(rank+1, file)) b.pieceAt(rank+1, file) else null
-      var validSpot = isValidSpot(rank+1, file)
+    else {
+
+      var possibleSpot = if (isValidSpot(rank+1, file+1)) b.pieceAt(rank+1, file+1) else null
+      var validSpot = isValidSpot(rank+1, file+1)
 	
       while (validSpot) {
         if(possibleSpot.isBlank == true) {
@@ -148,10 +150,10 @@ trait BishopMoves {
           validSpot = false
         }
 
-		  if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file + 1))
-			  possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file + 1)
-	    else
-		    validSpot = false
+        if (isValidSpot(possibleSpot.rank - 1, possibleSpot.file + 1))
+          possibleSpot = b.pieceAt(possibleSpot.rank - 1, possibleSpot.file + 1)
+        else
+          validSpot = false
 
       }
 

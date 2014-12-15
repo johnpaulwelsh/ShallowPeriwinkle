@@ -163,6 +163,6 @@ object Runner {
 
 //    printPieceList(pieceListWhite)
 
-    println(MinimaxAlphaBeta.actions(ourBoard, playingAsWhite).filter(x => x.substring(0, 1) != "P"))
+    println(MinimaxAlphaBeta.actions(ourBoard, playingAsWhite).filter(x => x.substring(0, 1) == "Q"))
   }
 }
