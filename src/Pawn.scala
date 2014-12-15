@@ -15,6 +15,7 @@ class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
 
     if(isWhite) {
 
+      // TODO: Make sure to set the pawn's isInStartPosition variable to false once we make this kind of move
       if(isInStartPosition) {
          // White Pawn Up 2
         if(b.pieceAt(rank + 2, file).isBlank == true) {
@@ -51,10 +52,9 @@ class Pawn(r: Int, f: Int, isW: Boolean) extends Piece {
 		  }
 	  }
 
-    }
+    } else {
 
-    else {
-
+      // TODO: Make sure to set the pawn's isInStartPosition variable to false once we make this kind of move
       if(isInStartPosition) {
         // Black Pawn Down 2
         if(b.pieceAt(rank - 2, file).isBlank == true) {
