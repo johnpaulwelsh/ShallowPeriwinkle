@@ -56,8 +56,8 @@ class Board(beginning: Boolean) {
     var isC = false
     var count = 0
     while (!isC && count < opponentsMoves.length) {
-      val move = opponentsMoves(count)
-      val (endRank, endFile) = (move.charAt(3).toInt, move.charAt(4).toInt)
+      val moveSplit = opponentsMoves(count).split("").filter(x => x != "")
+      val (endRank, endFile) = (moveSplit(3).toInt, moveSplit(4).toInt)
       ourBoard.pieceAt(endRank, endFile) match {
         case k: King => isC = true
         case _       => isC = false

@@ -25,7 +25,10 @@ object MinimaxAlphaBeta {
   // Helper functions for Minimax
   //
 
-  def terminalTest(state: Board, isWhite: Boolean): Boolean = state.isCheckmate(isWhite)
+  def terminalTest(state: Board, isWhite: Boolean): Boolean = {
+    false
+//    state.isCheckmate(isWhite)
+  }
 
   /**
    * Performs an action on the board and returns the board post-move.
