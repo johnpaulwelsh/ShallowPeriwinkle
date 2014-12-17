@@ -139,7 +139,7 @@ object Runner {
       //Thread.sleep(5000)
 //    }
 
-    var ourMove = "Nb8e6"
+    var ourMove = "Ke8e6"
 
     // Translate our move letters to numbers here
     var ourMoveTranslated = ourMove.split("").filter(x => x != "")
@@ -163,7 +163,7 @@ object Runner {
 
 //    printPieceList(pieceListWhite)
 
-//    println(MinimaxAlphaBeta.actions(ourBoard, playingAsWhite).filter(x => x.substring(0, 1) == "N"))
-    println(MinimaxAlphaBeta.actions(ourBoard, playingAsWhite))
+    println(MinimaxAlphaBeta.actions(ourBoard, playingAsWhite).filter(x => x.substring(0, 1) == "K"))
+    //println(MinimaxAlphaBeta.actions(ourBoard, playingAsWhite))
   }
 }

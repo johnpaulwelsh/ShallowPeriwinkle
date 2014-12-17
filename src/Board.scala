@@ -211,7 +211,7 @@ class Board(beginning: Boolean) {
   def printBoard(): Unit = {
     var str = ""
     for (r <- 1 to boardArray.length) {
-      str += r + " | "
+      str += reverseRank(r) + " | "
       for (f <- 1 to boardArray.length) {
         val letter = pieceAt(r, f) match {
           case r: Rook   => "R"
