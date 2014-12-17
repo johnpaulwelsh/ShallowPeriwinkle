@@ -13,7 +13,7 @@ object MinimaxAlphaBeta {
   // Arbitrarily large or small numbers represent +/- infinity
   val NEGATIVE_INFINITY = -10000
   val POSITIVE_INFINITY = 10000
-  val KING_ATTACK = 100 // TODO: Not sure on this value yet, may need to tweak to make for more realistic play
+  val KING_ATTACK = 0 // TODO: Not sure on this value yet, may need to tweak to make for more realistic play
   val PAWN = 1
   val KNIGHT = 3
   val BISHOP = 3
@@ -88,10 +88,10 @@ object MinimaxAlphaBeta {
         }
 
       // Check for attacks on King
-      if (state.isCheck(true))   // Check on Black King
-        stateVal += KING_ATTACK
-      if (state.isCheck(false))  // Check on White King
-        stateVal -= (KING_ATTACK + 5)  // Make checks on our king worse than putting their king in check, prevents check tradeoffs
+//      if (state.isCheck(true))   // Check on Black King
+//        stateVal += KING_ATTACK
+//      if (state.isCheck(false))  // Check on White King
+//        stateVal -= (KING_ATTACK + 5)  // Make checks on our king worse than putting their king in check, prevents check tradeoffs
 
       // Invert Eval Total For Black Piece Calculation
       if(!isWhite)
@@ -120,8 +120,11 @@ object MinimaxAlphaBeta {
   // Core Minimax functions
   //
 
-  def alphaBetaSearch(state: Board, depthLimit: Int): String =
-    maxValue(state, POSITIVE_INFINITY, NEGATIVE_INFINITY, DEPTH_LIMIT)._1
+  def alphaBetaSearch(state: Board, depthLimit: Int): String = {
+    val (move, value) = maxValue(state, NEGATIVE_INFINITY, POSITIVE_INFINITY, DEPTH_LIMIT)
+    println(move + ", " + value)
+    move
+  }
 
 
   def maxValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
@@ -134,13 +137,15 @@ object MinimaxAlphaBeta {
       var bestVal = NEGATIVE_INFINITY
 
       var count = 0
-      while (beta <= mutAlpha && count < acts.length) {
+      while (bestVal < beta && count < acts.length) {
         val a = acts(count)
         val (currAction, v) = (a, minValue(result(state.clone(), a, playingAsWhite), mutAlpha, beta, depthLimit - 1)._2)
         if (v > bestVal) {
           bestMove = currAction
           bestVal = v
-          mutAlpha = v
+        }
+        if (bestVal > mutAlpha) {
+          mutAlpha = bestVal
         }
         count += 1
       }
@@ -156,16 +161,18 @@ object MinimaxAlphaBeta {
       var mutBeta = beta
       val acts = actions(state, !playingAsWhite)
       var bestMove = acts.head
-      var bestVal = NEGATIVE_INFINITY
+      var bestVal = POSITIVE_INFINITY
 
       var count = 0
-      while (alpha >= mutBeta && count < acts.length) {
+      while (bestVal > alpha && count < acts.length) {
         val a = acts(count)
         val (currAction, v) = (a, maxValue(result(state.clone(), a, !playingAsWhite), alpha, mutBeta, depthLimit - 1)._2)
-        if (v > bestVal) {
+        if (v < bestVal) {
           bestMove = currAction
           bestVal = v
-          mutBeta = v
+        }
+        if (bestVal < mutBeta) {
+          mutBeta = bestVal
         }
         count += 1
       }

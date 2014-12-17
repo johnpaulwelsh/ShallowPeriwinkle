@@ -79,7 +79,6 @@ object Runner {
 
     // If the server is ready for our move
     if (responseJSON.ready) {
-      println("we are ready to go")
       // If we still have time to play
       if (responseJSON.secsLeft > 0) {
         // Make the move that the opponent just made on our board
@@ -106,23 +105,20 @@ object Runner {
         // send ourMove to server
         doHttpUrlConnectionAction(urlNextMove + "" + ourMove)
       }
-    } else {
-      println("slow down copernicus")
     }
 
-    newBoard.printBoard()
     newBoard
   }
 
   def main(args: Array[String]): Unit = {
 
-    playingAsWhite = true
+    playingAsWhite = false
 //    playingAsWhite = args(0) == "true"
 
     val origBoard = new Board(true, Array.ofDim(8, 8))
 
 //    val GAME_ID = args(1).toInt
-    val GAME_ID = 637
+    val GAME_ID = 700
 
     val player = "201"
     val secret = "01a907f0"
