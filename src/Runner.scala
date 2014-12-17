@@ -28,9 +28,9 @@ object Runner {
       connection.connect()
 
       // read the output from the server
-      val ass = connection.getInputStream
-      val uh = new InputStreamReader(ass)
-      reader = new BufferedReader(uh)
+      val inp = connection.getInputStream
+      val duh = new InputStreamReader(inp)
+      reader = new BufferedReader(duh)
 
       // Get the first line (and only line) of the output
       val line: String = reader.readLine()
@@ -110,7 +110,7 @@ object Runner {
         // send ourMove to server
         doHttpUrlConnectionAction(urlNextMove + "" + ourMove)
 
-        newBoard.printBoard()
+        //newBoard.printBoard()
       }
     }
 

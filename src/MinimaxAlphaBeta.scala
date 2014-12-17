@@ -27,7 +27,7 @@ object MinimaxAlphaBeta {
 
   def terminalTest(state: Board, isWhite: Boolean): Boolean = {
     val isCM = state.isCheckmate(isWhite)
-    if (isCM) println("found checkmate")
+    //if (isCM) println("found checkmate")
     isCM
   }
 
