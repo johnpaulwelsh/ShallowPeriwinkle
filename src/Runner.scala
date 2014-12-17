@@ -112,6 +112,8 @@ object Runner {
 
   def main(args: Array[String]): Unit = {
 
+    println("dingo")
+
     playingAsWhite = false
 //    playingAsWhite = args(0) == "true"
 
@@ -129,6 +131,7 @@ object Runner {
 
     // Do the poll + move process every 5 seconds
     while (true) {
+      println("dingo")
       Thread.sleep(5000)
       nextBoard = move(nextBoard, urlPoll, urlNextMove)
     }
