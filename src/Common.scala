@@ -6,7 +6,7 @@
 */
 object Common {
   val DEPTH_LIMIT = 4
-
+  var FIRST_MOVE = true
   var GAME_OVER = false
 
 //  var ourBoard: Board = null

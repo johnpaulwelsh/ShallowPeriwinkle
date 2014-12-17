@@ -76,9 +76,15 @@ case class Board(isNew: Boolean, bArray: Array[Array[Piece]]) {
     isC
   }
 
-  // TODO: this can be simpler, just check if the king has been captured
   def isCheckmate(isWhite: Boolean): Boolean = {
-    false
+    for (r <- 1 to 8) {
+      for (f <- 1 to 8) {
+        if (pieceAt(r, f).isInstanceOf[King]) {
+          return false
+        }
+      }
+    }
+    return true
 //    var isCM = true
 //    if (isCheck(isWhite)) {
 //      val ourMoves = MinimaxAlphaBeta.actions(this, isWhite)
@@ -106,11 +112,17 @@ case class Board(isNew: Boolean, bArray: Array[Array[Piece]]) {
   def isPromoting(secondPiece: String): Boolean = secondPiece != ""
 
   def applyAction(a: String, isWhite: Boolean): Board = {
-    // We will gave already interpreted the ranks into numbers
+    // We will have already interpreted the ranks into numbers
     val split = a.split("").filter(x => x != "")
     val piece = split(0)
     val (startRank, startFile, endRank, endFile) = (split(1).toInt, split(2).toInt, split(3).toInt, split(4).toInt)
     val secondPiece = if (split.length > 5) split(5) else ""
+
+    // If we are trying to move a blank piece, something got messed up, but to prevent errors later on,
+    // just skip this whole thing. Don't actually attempt to "move a Blank"
+    if (pieceAt(startRank, startFile).isInstanceOf[Blank]) {
+      return this
+    }
 
     // Update the piece list for the opposing player, if there is a capture going on
     if (isWhite) {
@@ -169,18 +181,27 @@ case class Board(isNew: Boolean, bArray: Array[Array[Piece]]) {
     // If we are promoting
     if (isPromoting(secondPiece)) {
 
-      // Put a queen in the end position
-      setPieceAt(endRank, endFile, new Queen(endRank, endFile, isWhite))
+      val promotedPiece = secondPiece match {
+        case "R" => new Rook(endRank, endFile, isWhite)
+        case "N" => new Knight(endRank, endFile, isWhite)
+        case "B" => new Bishop(endRank, endFile, isWhite)
+        case "Q" => new Queen(endRank, endFile, isWhite)
+        case "K" => new King(endRank, endFile, isWhite)
+        case "P" => new Pawn(endRank, endFile, isWhite, false)
+      }
 
-      // Remove the pawn from the piece list and add the queen
+      // Put the promoted piece in the end position
+      setPieceAt(endRank, endFile, promotedPiece)
+
+      // Remove the pawn from the piece list and add the new piece
       if (isWhite) {
         val promotingIdx = pieceListWhite.indexOf(pieceAt(startRank, startFile))
         if (promotingIdx > 0) pieceListWhite = splice(pieceListWhite, promotingIdx, 1)
-        pieceListWhite = new Queen(endRank, endFile, isWhite) +: pieceListWhite
+        pieceListWhite = promotedPiece +: pieceListWhite
       } else {
         val promotingIdx = pieceListBlack.indexOf(pieceAt(startRank, startFile))
         if (promotingIdx > 0) pieceListBlack = splice(pieceListBlack, promotingIdx, 1)
-        pieceListBlack = new Queen(endRank, endFile, isWhite) +: pieceListBlack
+        pieceListBlack = promotedPiece +: pieceListBlack
       }
 
     // Otherwise, put the moving piece into its end position,

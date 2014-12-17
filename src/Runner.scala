@@ -77,6 +77,11 @@ object Runner {
     val responseJSON = parseJSON(response)
     var newBoard = board.clone()
 
+    // See if the state is now a checkmate; if it is, set a global variable
+    if (newBoard.isCheckmate(playingAsWhite) || newBoard.isCheckmate(!playingAsWhite)) {
+      GAME_OVER = true
+    }
+
     // If the server is ready for our move
     if (responseJSON.ready) {
       // If we still have time to play
@@ -86,13 +91,13 @@ object Runner {
           newBoard = newBoard.applyAction(responseJSON.lastMove, !playingAsWhite)
         }
 
-        // See if the state is now a checkmate; if it is, set a global variable
-        if (newBoard.isCheckmate(playingAsWhite) || newBoard.isCheckmate(!playingAsWhite)) {
-          GAME_OVER = true
-        }
-
         // Decide and make our move on our board
-        var ourMove = MinimaxAlphaBeta.alphaBetaSearch(newBoard, DEPTH_LIMIT)
+        var ourMove = if (FIRST_MOVE) {
+          FIRST_MOVE = false
+          if (playingAsWhite) "P5254" else "P5756"
+        } else {
+          MinimaxAlphaBeta.alphaBetaSearch(newBoard, DEPTH_LIMIT)
+        }
 
         newBoard = newBoard.applyAction(ourMove, playingAsWhite)
 
@@ -104,6 +109,8 @@ object Runner {
 
         // send ourMove to server
         doHttpUrlConnectionAction(urlNextMove + "" + ourMove)
+
+        newBoard.printBoard()
       }
     }
 
@@ -111,17 +118,9 @@ object Runner {
   }
 
   def main(args: Array[String]): Unit = {
-
-    println("dingo")
-
-    playingAsWhite = false
-//    playingAsWhite = args(0) == "true"
-
+    playingAsWhite = args(0) == "true"
     val origBoard = new Board(true, Array.ofDim(8, 8))
-
-//    val GAME_ID = args(1).toInt
-    val GAME_ID = 700
-
+    val GAME_ID = args(1).toInt
     val player = "201"
     val secret = "01a907f0"
     val urlPoll = "http://bencarle.com/chess/poll/"+GAME_ID+"/"+player+"/"+secret+"/"
@@ -130,8 +129,7 @@ object Runner {
     var nextBoard = move(origBoard, urlPoll, urlNextMove)
 
     // Do the poll + move process every 5 seconds
-    while (true) {
-      println("dingo")
+    while (!GAME_OVER) {
       Thread.sleep(5000)
       nextBoard = move(nextBoard, urlPoll, urlNextMove)
     }

@@ -11,4 +11,4 @@ echo ${THE_CLASSPATH}
 # the ".class" files as output to the current directory:
 scalac -classpath "$THE_CLASSPATH" ./src/*.scala
 echo "Done compiling"
-scala -classpath "$THE_CLASSPATH" Runner
+scala -classpath "$THE_CLASSPATH" Runner $1 $2

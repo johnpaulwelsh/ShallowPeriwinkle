@@ -27,9 +27,13 @@ class Pawn(r: Int, f: Int, isW: Boolean, isAtStart: Boolean) extends Piece {
       //White Pawn Up 1
       if(isValidSpot(rank, file + 1)) {
         if(b.pieceAt(rank, file + 1).isBlank == true) {
-        nextRank = rank
-        nextFile = file + 1
-        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+          nextRank = rank
+          nextFile = file + 1
+          if (nextFile == 8) {
+            moveList = moveList ::: List("P" + rank + file + nextRank + nextFile + "Q")
+          } else {
+            moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+          }
         }
       }
 
@@ -66,9 +70,13 @@ class Pawn(r: Int, f: Int, isW: Boolean, isAtStart: Boolean) extends Piece {
       // Black Pawn Down 1
       if (isValidSpot(rank, file - 1)) {
         if(b.pieceAt(rank, file - 1).isBlank == true) {
-        nextRank = rank
-        nextFile = file - 1
-        moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+          nextRank = rank
+          nextFile = file - 1
+          if (nextFile == 1) {
+            moveList = moveList ::: List("P" + rank + file + nextRank + nextFile + "Q")
+          } else {
+            moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
+          }
         }
       }
 

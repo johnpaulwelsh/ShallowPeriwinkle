@@ -13,7 +13,7 @@ object MinimaxAlphaBeta {
   // Arbitrarily large or small numbers represent +/- infinity
   val NEGATIVE_INFINITY = -10000
   val POSITIVE_INFINITY = 10000
-  val KING_ATTACK = 0 // TODO: Not sure on this value yet, may need to tweak to make for more realistic play
+  val KING_ATTACK = 25 // TODO: Not sure on this value yet, may need to tweak to make for more realistic play
   val PAWN = 1
   val KNIGHT = 3
   val BISHOP = 3
@@ -26,8 +26,9 @@ object MinimaxAlphaBeta {
   //
 
   def terminalTest(state: Board, isWhite: Boolean): Boolean = {
-    false
-//    state.isCheckmate(isWhite)
+    val isCM = state.isCheckmate(isWhite)
+    if (isCM) println("found checkmate")
+    isCM
   }
 
   /**
@@ -60,42 +61,42 @@ object MinimaxAlphaBeta {
 
               thisPiece match {
                 case p: Pawn =>
-                  if(thisPiece.isWhite) stateVal += PAWN
-                  else                  stateVal -= PAWN
+                  if(thisPiece.isWhite == isWhite) stateVal += PAWN
+                  else                             stateVal -= PAWN
 
                 case r: Rook =>
-                  if(thisPiece.isWhite) stateVal += ROOK
-                  else                  stateVal -= ROOK
+                  if(thisPiece.isWhite == isWhite) stateVal += ROOK
+                  else                             stateVal -= ROOK
 
                 case k: Knight =>
-                  if(thisPiece.isWhite) stateVal += KNIGHT
-                  else                  stateVal -= KNIGHT
+                  if(thisPiece.isWhite == isWhite) stateVal += KNIGHT
+                  else                             stateVal -= KNIGHT
 
                 case b: Bishop =>
-                  if(thisPiece.isWhite) stateVal += BISHOP
-                  else                  stateVal -= BISHOP
+                  if(thisPiece.isWhite == isWhite) stateVal += BISHOP
+                  else                             stateVal -= BISHOP
 
                 case q: Queen =>
-                  if(thisPiece.isWhite) stateVal += QUEEN
-                  else                  stateVal -= QUEEN
+                  if(thisPiece.isWhite == isWhite) stateVal += QUEEN
+                  else                             stateVal -= QUEEN
 
                 case k: King =>
-                  if(thisPiece.isWhite) stateVal += KING
-                  else                  stateVal -= KING
+                  if(thisPiece.isWhite == isWhite) stateVal += KING
+                  else                             stateVal -= KING
               }
             }
           }
         }
 
       // Check for attacks on King
-//      if (state.isCheck(true))   // Check on Black King
-//        stateVal += KING_ATTACK
-//      if (state.isCheck(false))  // Check on White King
-//        stateVal -= (KING_ATTACK + 5)  // Make checks on our king worse than putting their king in check, prevents check tradeoffs
+      if (state.isCheck(isWhite))     // Check on our King
+        stateVal -= (KING_ATTACK + 5) // Make checks on our king worse than putting their king in check, prevents check tradeoffs
+      if (state.isCheck(!isWhite))    // Check on their King
+        stateVal += KING_ATTACK
 
       // Invert Eval Total For Black Piece Calculation
-      if(!isWhite)
-        stateVal = stateVal * -1
+//      if(!isWhite)
+//        stateVal = stateVal * -1
     }
 
     stateVal
