@@ -211,6 +211,7 @@ class Board(beginning: Boolean) {
   def printBoard(): Unit = {
     var str = ""
     for (r <- 1 to boardArray.length) {
+      str += r + " | "
       for (f <- 1 to boardArray.length) {
         val letter = pieceAt(r, f) match {
           case r: Rook   => "R"
@@ -225,6 +226,9 @@ class Board(beginning: Boolean) {
       }
       str += "\n"
     }
+    str += "_____________________"
+    str += "\n"
+    str += "     1 2 3 4 5 6 7 8 "
     println(str)
   }
 }

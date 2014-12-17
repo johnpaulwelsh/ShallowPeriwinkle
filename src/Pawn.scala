@@ -16,7 +16,7 @@ class Pawn(r: Int, f: Int, isW: Boolean, isAtStart: Boolean) extends Piece {
     if(isWhite) {
 
       // White Pawn Up 2
-      if(isInStartPosition) {
+      if(isInStartPosition && (b.pieceAt(rank, file + 1).isBlank == true))  {
         if(b.pieceAt(rank, file + 2).isBlank == true) {
           nextRank = rank
           nextFile = file + 2
@@ -54,7 +54,7 @@ class Pawn(r: Int, f: Int, isW: Boolean, isAtStart: Boolean) extends Piece {
     // Black
     } else {
 
-      if(isInStartPosition) {
+      if(isInStartPosition && (b.pieceAt(rank, file - 1).isBlank == true)) {
         // Black Pawn Down 2
         if(b.pieceAt(rank, file - 2).isBlank == true) {
           nextRank = rank
@@ -74,7 +74,7 @@ class Pawn(r: Int, f: Int, isW: Boolean, isAtStart: Boolean) extends Piece {
 
       // Black Pawn Attack Board Left
       if (isValidSpot(rank - 1, file - 1)) {
-        if ((b.pieceAt(rank - 1, file - 1).isWhite == false) && (b.pieceAt(rank - 1, file - 1).isBlank == false)) {
+        if ((b.pieceAt(rank - 1, file - 1).isWhite == true) && (b.pieceAt(rank - 1, file - 1).isBlank == false)) {
         nextRank = rank - 1
         nextFile = file - 1
         moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
@@ -83,7 +83,7 @@ class Pawn(r: Int, f: Int, isW: Boolean, isAtStart: Boolean) extends Piece {
 
       //Black Pawn Attack Board Right
       if (isValidSpot(rank + 1, file - 1)) {
-        if ((b.pieceAt(rank + 1, file - 1).isWhite == false) && (b.pieceAt(rank + 1, file - 1).isBlank == false)) {
+        if ((b.pieceAt(rank + 1, file - 1).isWhite == true) && (b.pieceAt(rank + 1, file - 1).isBlank == false)) {
         nextRank = rank + 1
         nextFile = file - 1
         moveList = moveList ::: List("P" + rank + file + nextRank + nextFile)
