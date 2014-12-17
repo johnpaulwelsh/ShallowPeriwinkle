@@ -161,8 +161,5 @@ object Runner {
 //    ourBoard.printBoard()
 
 //    printPieceList(pieceListWhite)
-
-//    println(MinimaxAlphaBeta.actions(ourBoard, playingAsWhite).filter(x => x.substring(0, 1) == "N"))
-//    println(MinimaxAlphaBeta.actions(ourBoard, playingAsWhite))
   }
 }
