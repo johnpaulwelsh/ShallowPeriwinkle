@@ -29,9 +29,7 @@ object Runner {
 
       // read the output from the server
       val ass = connection.getInputStream
-      println("ok 4")
       val uh = new InputStreamReader(ass)
-      println("ok 5")
       reader = new BufferedReader(uh)
 
       // Get the first line (and only line) of the output
@@ -84,9 +82,9 @@ object Runner {
       // If we still have time to play
       if (responseJSON.secsLeft > 0) {
         // Make the move that the opponent just made on our board
-//        if (responseJSON.lastMove != "none") {
-//          ourBoard = ourBoard.applyAction(responseJSON.lastMove, !playingAsWhite)
-//        }
+        if (responseJSON.lastMove != "none") {
+          ourBoard = ourBoard.applyAction(responseJSON.lastMove, !playingAsWhite)
+        }
 
         // See if the state is now a checkmate; if it is, set a global variable
         if (ourBoard.isCheckmate(playingAsWhite) || ourBoard.isCheckmate(!playingAsWhite)) {
@@ -100,18 +98,15 @@ object Runner {
 
         // Translate our move numbers to letters here
         var ourMoveTranslated = ourMove.split("").filter(x => x != "")
-        println(ourMoveTranslated)
         ourMoveTranslated(1) = reverseRank(ourMoveTranslated(1).toInt)
         ourMoveTranslated(3) = reverseRank(ourMoveTranslated(3).toInt)
         ourMove = ourMoveTranslated.mkString("")
 
         // send ourMove to server
         doHttpUrlConnectionAction(urlNextMove + "" + ourMove)
-        println(urlNextMove + ourMove)
       }
     }
 
-//    ourBoard = ourBoard.applyAction("Ke1g1", playingAsWhite)
     ourBoard.printBoard()
   }
 
@@ -123,7 +118,7 @@ object Runner {
     ourBoard = new Board(true)
 
 //    val GAME_ID = args(1).toInt
-    val GAME_ID = 543
+    val GAME_ID = 553
 
     val player = "201"
     val secret = "01a907f0"
@@ -133,7 +128,7 @@ object Runner {
     val urlNextMove = "http://bencarle.com/chess/move/"+GAME_ID+"/"+player+"/"+secret+"/"
 
     // Do the poll + move process every 5 seconds
-    while (!GAME_OVER) {
+    while (true) {
       move(urlPoll, urlNextMove)
       Thread.sleep(5000)
     }

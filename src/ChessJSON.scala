@@ -12,8 +12,19 @@ class ChessJSON(jsonObject: JsonObject) {
   val secsLeft    = jsonObject.getInt("secondsleft").toFloat
   val lastMoveNum = jsonObject.getInt("lastmovenumber")
 
-  val lastMove    = if (ready) jsonObject.getString("lastmove")
-                    else       "none"
+  val lastMove    = if (ready) {
+    val move = jsonObject.getString("lastmove")
+    if (move != "") {
+      var lMove: Array[String] = move.split("").filter(x => x != "")
+      lMove(1) = Common.interpretRank(lMove(1)).toString
+      lMove(3) = Common.interpretRank(lMove(3)).toString
+      lMove.mkString("")
+    } else {
+      "none"
+    }
+  } else {
+    "none"
+  }
 
   override def toString = "ready: " + ready + "\n" +
                           "seconds left: " + secsLeft + "\n" +
