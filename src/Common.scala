@@ -5,7 +5,7 @@
 * @author John Paul Welsh
 */
 object Common {
-  val DEPTH_LIMIT = 2
+  val DEPTH_LIMIT = 4
 
   var GAME_OVER = false
 
