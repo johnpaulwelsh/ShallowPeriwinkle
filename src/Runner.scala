@@ -72,29 +72,30 @@ object Runner {
     new ChessJSON(jsonObject)
   }
 
-  def move(urlPoll: String, urlNextMove: String): Unit = {
-
+  def move(board: Board, urlPoll: String, urlNextMove: String): Board = {
     val response = doHttpUrlConnectionAction(urlPoll)
     val responseJSON = parseJSON(response)
+    var newBoard = board.clone()
 
     // If the server is ready for our move
     if (responseJSON.ready) {
+      println("we are ready to go")
       // If we still have time to play
       if (responseJSON.secsLeft > 0) {
         // Make the move that the opponent just made on our board
         if (responseJSON.lastMove != "none") {
-          ourBoard = ourBoard.applyAction(responseJSON.lastMove, !playingAsWhite)
+          newBoard = newBoard.applyAction(responseJSON.lastMove, !playingAsWhite)
         }
 
         // See if the state is now a checkmate; if it is, set a global variable
-        if (ourBoard.isCheckmate(playingAsWhite) || ourBoard.isCheckmate(!playingAsWhite)) {
+        if (newBoard.isCheckmate(playingAsWhite) || newBoard.isCheckmate(!playingAsWhite)) {
           GAME_OVER = true
         }
 
         // Decide and make our move on our board
-        var ourMove = MinimaxAlphaBeta.alphaBetaSearch(ourBoard, DEPTH_LIMIT)
+        var ourMove = MinimaxAlphaBeta.alphaBetaSearch(newBoard, DEPTH_LIMIT)
 
-        ourBoard = ourBoard.applyAction(ourMove, playingAsWhite)
+        newBoard = newBoard.applyAction(ourMove, playingAsWhite)
 
         // Translate our move numbers to letters here
         var ourMoveTranslated = ourMove.split("").filter(x => x != "")
@@ -105,56 +106,35 @@ object Runner {
         // send ourMove to server
         doHttpUrlConnectionAction(urlNextMove + "" + ourMove)
       }
+    } else {
+      println("slow down copernicus")
     }
 
-    ourBoard.printBoard()
+    newBoard.printBoard()
+    newBoard
   }
 
   def main(args: Array[String]): Unit = {
 
-    playingAsWhite = true // TODO: MAKE SURE YOU NOTICE THAT WE'RE WHITE NOW
+    playingAsWhite = true
 //    playingAsWhite = args(0) == "true"
 
-    ourBoard = new Board(true)
+    val origBoard = new Board(true, Array.ofDim(8, 8))
 
 //    val GAME_ID = args(1).toInt
-    val GAME_ID = 559
+    val GAME_ID = 637
 
     val player = "201"
     val secret = "01a907f0"
-//    val player = "1"
-//    val secret = "32c68cae"
     val urlPoll = "http://bencarle.com/chess/poll/"+GAME_ID+"/"+player+"/"+secret+"/"
     val urlNextMove = "http://bencarle.com/chess/move/"+GAME_ID+"/"+player+"/"+secret+"/"
 
+    var nextBoard = move(origBoard, urlPoll, urlNextMove)
+
     // Do the poll + move process every 5 seconds
     while (true) {
-      move(urlPoll, urlNextMove)
       Thread.sleep(5000)
+      nextBoard = move(nextBoard, urlPoll, urlNextMove)
     }
-
-//    var ourMove = "Nb8e6"
-//
-//    // Translate our move letters to numbers here
-//    var ourMoveTranslated = ourMove.split("").filter(x => x != "")
-//    ourMoveTranslated(1) = interpretRank(ourMoveTranslated(1)).toString
-//    ourMoveTranslated(3) = interpretRank(ourMoveTranslated(3)).toString
-//
-//    ourBoard = ourBoard.applyAction(ourMoveTranslated.mkString(""), playingAsWhite)
-//
-//    ourBoard.printBoard()
-
-//    ourMove = "Pe2e4"
-//
-//    // Translate our move letters to numbers here
-//    ourMoveTranslated = ourMove.split("").filter(x => x != "")
-//    ourMoveTranslated(1) = interpretRank(ourMoveTranslated(1)).toString
-//    ourMoveTranslated(3) = interpretRank(ourMoveTranslated(3)).toString
-//
-//    ourBoard = ourBoard.applyAction(ourMoveTranslated.mkString(""), playingAsWhite)
-//
-//    ourBoard.printBoard()
-
-//    printPieceList(pieceListWhite)
   }
 }

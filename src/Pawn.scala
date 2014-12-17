@@ -2,7 +2,7 @@ import Common._
 
 class Pawn(r: Int, f: Int, isW: Boolean, isAtStart: Boolean) extends Piece {
   val isWhite = isW
-  val isBlank = false
+  var isBlank = false
   var rank = r
   var file = f
   var isInStartPosition = isAtStart

@@ -1,10 +1,16 @@
 import Common._
 
-class Board(beginning: Boolean) {
+case class Board(isNew: Boolean, bArray: Array[Array[Piece]]) {
 
-  var boardArray: Array[Array[Piece]] = Array.ofDim(8, 8)
+  var boardArray: Array[Array[Piece]] = bArray
+  var pieceListWhite = Array[Piece]()
+  var pieceListBlack = Array[Piece]()
 
-  if (beginning) initializeBoard()
+  if (isNew) {
+    initializeBoard()
+  }
+
+  setPieceLists()
 
   def initializeBoard() = {
     setPieceAt(1, 1, new Rook(  1, 1, true))
@@ -35,15 +41,18 @@ class Board(beginning: Boolean) {
     setPieceAt(7, 8, new Knight(7, 8, false))
     setPieceAt(8, 8, new Rook(  8, 8, false))
 
-    setPieceLists()
+//    setPieceLists()
   }
 
   def setPieceLists(): Unit = {
     for (r <- 1 to 8) {
-      pieceListWhite = pieceAt(r, 1) +: pieceListWhite // officers
-      pieceListWhite = pieceAt(r, 2) +: pieceListWhite // pawns
-      pieceListBlack = pieceAt(r, 7) +: pieceListBlack // pawns
-      pieceListBlack = pieceAt(r, 8) +: pieceListBlack // officers
+      for (f <- 1 to 8) {
+        if (pieceAt(r, f).isWhite) {
+          pieceListWhite = pieceAt(r, f) +: pieceListWhite
+        } else if (!pieceAt(r, f).isWhite && !pieceAt(r, f).isBlank) {
+          pieceListBlack = pieceAt(r, f) +: pieceListBlack
+        }
+      }
     }
   }
 
@@ -52,7 +61,7 @@ class Board(beginning: Boolean) {
   def setPieceAt(r: Int, f: Int, p: Piece) = boardArray(r-1)(f-1) = p
 
   def isCheck(isWhite: Boolean): Boolean = {
-    val opponentsMoves = MinimaxAlphaBeta.actions(ourBoard, !isWhite)
+    val opponentsMoves = MinimaxAlphaBeta.actions(this, !isWhite)
     var isC = false
     var count = 0
     while (!isC && count < opponentsMoves.length) {
@@ -72,7 +81,7 @@ class Board(beginning: Boolean) {
     false
 //    var isCM = true
 //    if (isCheck(isWhite)) {
-//      val ourMoves = MinimaxAlphaBeta.actions(ourBoard, isWhite)
+//      val ourMoves = MinimaxAlphaBeta.actions(this, isWhite)
 //      var count = 0
 //      while (isCM && count < ourMoves.length) {
 //        val move = ourMoves(count)
@@ -97,8 +106,6 @@ class Board(beginning: Boolean) {
   def isPromoting(secondPiece: String): Boolean = secondPiece != ""
 
   def applyAction(a: String, isWhite: Boolean): Board = {
-    val self = this
-
     // We will gave already interpreted the ranks into numbers
     val split = a.split("").filter(x => x != "")
     val piece = split(0)
@@ -232,5 +239,9 @@ class Board(beginning: Boolean) {
     str += "\n"
     str += "     1 2 3 4 5 6 7 8 "
     println(str)
+  }
+
+  override def clone() = {
+    new Board(false, boardArray.map(_.clone())) // maybe make double-nested for-loop
   }
 }

@@ -5,21 +5,17 @@
 * @author John Paul Welsh
 */
 object Common {
-  val DEPTH_LIMIT = 2
+  val DEPTH_LIMIT = 3
 
   var GAME_OVER = false
 
-  var ourBoard: Board = null
+//  var ourBoard: Board = null
 
   /* Whenever something relies on whether we are playing as white or black, use this.
    * It's determined at the beginning of the game, and using it properly will correctly
    * distinguish us from the opponent.
    */
   var playingAsWhite: Boolean = false
-
-  // Arrays of tuples representing the ranks and files of all remaining pieces
-  var pieceListWhite = Array[Piece]()
-  var pieceListBlack = Array[Piece]()
 
   def maximum(values: Int*): Int = values.reduceLeft(_ max _)
   def minimum(values: Int*): Int = values.reduceLeft(_ min _)

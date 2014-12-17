@@ -6,7 +6,7 @@
  */
 class Blank(r: Int, f: Int) extends Piece {
   val isWhite = false
-  val isBlank = true
+  var isBlank = true
   val rank = r
   val file = f
   var isInStartPosition = true

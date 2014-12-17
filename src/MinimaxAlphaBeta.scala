@@ -111,7 +111,7 @@ object MinimaxAlphaBeta {
       else            buildMoveList(ls.tail, ls.head.availableMoves(state) :: accum)
     }
 
-    val pieceList = if (isWhite) pieceListWhite else pieceListBlack
+    val pieceList = if (isWhite) state.pieceListWhite else state.pieceListBlack
 
     buildMoveList(pieceList, List(List[String]())).flatten
   }
@@ -135,9 +135,8 @@ object MinimaxAlphaBeta {
 
       var count = 0
       while (beta <= mutAlpha && count < acts.length) {
-        val currState = state
         val a = acts(count)
-        val (currAction, v) = (a, minValue(result(currState, a, playingAsWhite), mutAlpha, beta, depthLimit - 1)._2)
+        val (currAction, v) = (a, minValue(result(state.clone(), a, playingAsWhite), mutAlpha, beta, depthLimit - 1)._2)
         if (v > bestVal) {
           bestMove = currAction
           bestVal = v
@@ -161,9 +160,8 @@ object MinimaxAlphaBeta {
 
       var count = 0
       while (alpha >= mutBeta && count < acts.length) {
-        val currState = state
         val a = acts(count)
-        val (currAction, v) = (a, maxValue(result(currState, a, !playingAsWhite), alpha, mutBeta, depthLimit - 1)._2)
+        val (currAction, v) = (a, maxValue(result(state.clone(), a, !playingAsWhite), alpha, mutBeta, depthLimit - 1)._2)
         if (v > bestVal) {
           bestMove = currAction
           bestVal = v
