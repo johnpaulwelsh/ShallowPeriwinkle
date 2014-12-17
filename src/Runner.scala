@@ -118,7 +118,7 @@ object Runner {
     ourBoard = new Board(true)
 
 //    val GAME_ID = args(1).toInt
-    val GAME_ID = 553
+    val GAME_ID = 559
 
     val player = "201"
     val secret = "01a907f0"

@@ -58,7 +58,7 @@ class Board(beginning: Boolean) {
     while (!isC && count < opponentsMoves.length) {
       val moveSplit = opponentsMoves(count).split("").filter(x => x != "")
       val (endRank, endFile) = (moveSplit(3).toInt, moveSplit(4).toInt)
-      ourBoard.pieceAt(endRank, endFile) match {
+      pieceAt(endRank, endFile) match {
         case k: King => isC = true
         case _       => isC = false
       }
@@ -69,20 +69,21 @@ class Board(beginning: Boolean) {
 
   // TODO: this can be simpler, just check if the king has been captured
   def isCheckmate(isWhite: Boolean): Boolean = {
-    var isCM = true
-    if (ourBoard.isCheck(isWhite)) {
-      val ourMoves = MinimaxAlphaBeta.actions(ourBoard, isWhite)
-      var count = 0
-      while (isCM && count < ourMoves.length) {
-        val move = ourMoves(count)
-        val tempBoard = ourBoard.applyAction(move, isWhite)
-        if (!tempBoard.isCheck(isWhite)) {
-          isCM = false
-        }
-        count += 1
-      }
-    }
-    isCM
+    false
+//    var isCM = true
+//    if (isCheck(isWhite)) {
+//      val ourMoves = MinimaxAlphaBeta.actions(ourBoard, isWhite)
+//      var count = 0
+//      while (isCM && count < ourMoves.length) {
+//        val move = ourMoves(count)
+//        val tempBoard = applyAction(move, isWhite)
+//        if (!tempBoard.isCheck(isWhite)) {
+//          isCM = false
+//        }
+//        count += 1
+//      }
+//    }
+//    isCM
   }
 
   def isCastling(piece: String, startRank: Int, endRank: Int): Boolean = {
@@ -96,6 +97,7 @@ class Board(beginning: Boolean) {
   def isPromoting(secondPiece: String): Boolean = secondPiece != ""
 
   def applyAction(a: String, isWhite: Boolean): Board = {
+    val self = this
 
     // We will gave already interpreted the ranks into numbers
     val split = a.split("").filter(x => x != "")
@@ -105,10 +107,10 @@ class Board(beginning: Boolean) {
 
     // Update the piece list for the opposing player, if there is a capture going on
     if (isWhite) {
-      val capturedIdx = pieceListBlack.indexOf(ourBoard.pieceAt(endRank, endFile))
+      val capturedIdx = pieceListBlack.indexOf(pieceAt(endRank, endFile))
       if (capturedIdx > 0) pieceListBlack = splice(pieceListBlack, capturedIdx, 1)
     } else {
-      val capturedIdx = pieceListWhite.indexOf(ourBoard.pieceAt(endRank, endFile))
+      val capturedIdx = pieceListWhite.indexOf(pieceAt(endRank, endFile))
       if (capturedIdx > 0) pieceListWhite = splice(pieceListWhite, capturedIdx, 1)
     }
 
@@ -146,11 +148,11 @@ class Board(beginning: Boolean) {
     } else if (isEnPassant(piece, startRank, endRank, endFile)) {
 
       if (isWhite) {
-        val capturedIdx = pieceListBlack.indexOf(ourBoard.pieceAt(endRank, endFile-1))
+        val capturedIdx = pieceListBlack.indexOf(pieceAt(endRank, endFile-1))
         if (capturedIdx > 0) pieceListBlack = splice(pieceListBlack, capturedIdx, 1)
         setPieceAt(endRank, endFile-1, new Blank(endRank, endFile-1))
       } else {
-        val capturedIdx = pieceListWhite.indexOf(ourBoard.pieceAt(endRank, endFile+1))
+        val capturedIdx = pieceListWhite.indexOf(pieceAt(endRank, endFile+1))
         if (capturedIdx > 0) pieceListWhite = splice(pieceListWhite, capturedIdx, 1)
         setPieceAt(endRank, endFile+1, new Blank(endRank, endFile+1))
       }
@@ -165,11 +167,11 @@ class Board(beginning: Boolean) {
 
       // Remove the pawn from the piece list and add the queen
       if (isWhite) {
-        val promotingIdx = pieceListWhite.indexOf(ourBoard.pieceAt(startRank, startFile))
+        val promotingIdx = pieceListWhite.indexOf(pieceAt(startRank, startFile))
         if (promotingIdx > 0) pieceListWhite = splice(pieceListWhite, promotingIdx, 1)
         pieceListWhite = new Queen(endRank, endFile, isWhite) +: pieceListWhite
       } else {
-        val promotingIdx = pieceListBlack.indexOf(ourBoard.pieceAt(startRank, startFile))
+        val promotingIdx = pieceListBlack.indexOf(pieceAt(startRank, startFile))
         if (promotingIdx > 0) pieceListBlack = splice(pieceListBlack, promotingIdx, 1)
         pieceListBlack = new Queen(endRank, endFile, isWhite) +: pieceListBlack
       }
@@ -189,11 +191,11 @@ class Board(beginning: Boolean) {
 
       // Update the piece list, for real this time
       if (isWhite) {
-        val replacedIdx = pieceListWhite.indexOf(ourBoard.pieceAt(startRank, startFile))
+        val replacedIdx = pieceListWhite.indexOf(pieceAt(startRank, startFile))
         if (replacedIdx > 0) pieceListWhite = splice(pieceListWhite, replacedIdx, 1) :+ newPiece
 
       } else {
-        val replacedIdx = pieceListBlack.indexOf(ourBoard.pieceAt(startRank, startFile))
+        val replacedIdx = pieceListBlack.indexOf(pieceAt(startRank, startFile))
         if (replacedIdx > 0) pieceListBlack = splice(pieceListBlack, replacedIdx, 1) :+ newPiece
       }
 

@@ -121,7 +121,7 @@ object MinimaxAlphaBeta {
   //
 
   def alphaBetaSearch(state: Board, depthLimit: Int): String =
-    maxValue(state, NEGATIVE_INFINITY, POSITIVE_INFINITY, DEPTH_LIMIT)._1
+    maxValue(state, POSITIVE_INFINITY, NEGATIVE_INFINITY, DEPTH_LIMIT)._1
 
 
   def maxValue(state: Board, alpha: Int, beta: Int, depthLimit: Int): (String, Int) = {
@@ -135,8 +135,9 @@ object MinimaxAlphaBeta {
 
       var count = 0
       while (beta <= mutAlpha && count < acts.length) {
+        val currState = state
         val a = acts(count)
-        val (currAction, v) = (a, minValue(result(state, a, playingAsWhite), mutAlpha, beta, depthLimit - 1)._2)
+        val (currAction, v) = (a, minValue(result(currState, a, playingAsWhite), mutAlpha, beta, depthLimit - 1)._2)
         if (v > bestVal) {
           bestMove = currAction
           bestVal = v
@@ -160,8 +161,9 @@ object MinimaxAlphaBeta {
 
       var count = 0
       while (alpha >= mutBeta && count < acts.length) {
+        val currState = state
         val a = acts(count)
-        val (currAction, v) = (a, maxValue(result(state, a, !playingAsWhite), alpha, mutBeta, depthLimit - 1)._2)
+        val (currAction, v) = (a, maxValue(result(currState, a, !playingAsWhite), alpha, mutBeta, depthLimit - 1)._2)
         if (v > bestVal) {
           bestMove = currAction
           bestVal = v
