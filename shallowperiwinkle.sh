@@ -1,8 +1,6 @@
 #!/bin/sh
 # Basic JAR file loading script concept by Alvin Alexander at alvinalexander.com
 # Changes made by John Paul Welsh and Michael Figueiredo
-# Remove all .class files from this directory before we compile
-rm *.class
 
 THE_CLASSPATH=.
 for i in `ls *.jar`
